@@ -25,3 +25,7 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# agent tooling (keep launch.json, ignore per-developer state)
+.claude/*
+!.claude/launch.json
