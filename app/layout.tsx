@@ -15,7 +15,6 @@ export const metadata: Metadata = {
     description: "당신만의 캐릭터와 함께, 특별한 이야기가 시작됩니다.",
     url: "https://petty.im",
     siteName: "petty",
-    images: ["/assets/welcome-background.png"],
     locale: "ko_KR",
     type: "website",
   },

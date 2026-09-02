@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +15,7 @@ import {
   WAITLIST_SUBMIT_PENDING_LABEL,
   WAITLIST_SUCCESS_MESSAGE,
 } from "@/content/landing-content";
+import { cn } from "@/lib/utils";
 import { toWaitlistErrorCode, type WaitlistErrorCode } from "@/lib/waitlist/error-code";
 
 type WaitlistStatus =
@@ -30,13 +31,23 @@ export function WaitlistForm() {
   const [consent, setConsent] = useState(false);
   const emailId = useId();
   const consentId = useId();
+  const statusId = useId();
+  const statusRef = useRef<HTMLParagraphElement>(null);
 
   const isPending = status.kind === "pending";
+  const isSuccess = status.kind === "success";
+  const isError = status.kind === "error";
+
+  useEffect(() => {
+    if (status.kind === "success" || status.kind === "error") {
+      statusRef.current?.focus();
+    }
+  }, [status.kind]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (isPending) {
+    if (isPending || isSuccess) {
       return;
     }
 
@@ -68,21 +79,15 @@ export function WaitlistForm() {
     }
   }
 
-  if (status.kind === "success") {
-    return (
-      <p className="min-h-11 text-body-sm text-success" role="status">
-        {WAITLIST_SUCCESS_MESSAGE}
-      </p>
-    );
-  }
-
   return (
     <form className="flex w-full flex-col gap-4" onSubmit={handleSubmit}>
       <div className="grid gap-2">
         <Label htmlFor={emailId}>{WAITLIST_EMAIL_LABEL}</Label>
         <Input
+          aria-describedby={isError ? statusId : undefined}
+          aria-invalid={isError ? true : undefined}
           autoComplete="email"
-          disabled={isPending}
+          disabled={isPending || isSuccess}
           id={emailId}
           name="email"
           placeholder={WAITLIST_EMAIL_PLACEHOLDER}
@@ -93,6 +98,7 @@ export function WaitlistForm() {
 
       <input
         aria-hidden="true"
+        autoComplete="off"
         className="hidden"
         name={HONEYPOT_FIELD_NAME}
         tabIndex={-1}
@@ -102,7 +108,7 @@ export function WaitlistForm() {
       <div className="flex items-start gap-2">
         <Checkbox
           checked={consent}
-          disabled={isPending}
+          disabled={isPending || isSuccess}
           id={consentId}
           onCheckedChange={(value) => setConsent(value === true)}
           required
@@ -112,11 +118,30 @@ export function WaitlistForm() {
         </Label>
       </div>
 
-      <p aria-live="polite" className="min-h-11 text-body-sm text-error">
-        {status.kind === "error" ? WAITLIST_ERROR_MESSAGES[status.code] : null}
+      <p
+        aria-live="polite"
+        className={cn(
+          "min-h-11 text-body-sm",
+          isError && "text-error",
+          isSuccess && "text-success",
+        )}
+        id={statusId}
+        ref={statusRef}
+        role="status"
+        tabIndex={-1}
+      >
+        {isError
+          ? WAITLIST_ERROR_MESSAGES[status.code]
+          : isSuccess
+            ? WAITLIST_SUCCESS_MESSAGE
+            : null}
       </p>
 
-      <Button className="w-full" disabled={isPending || !consent} type="submit">
+      <Button
+        className="w-full"
+        disabled={isPending || status.kind === "success" || !consent}
+        type="submit"
+      >
         {isPending ? WAITLIST_SUBMIT_PENDING_LABEL : WAITLIST_SUBMIT_LABEL}
       </Button>
     </form>

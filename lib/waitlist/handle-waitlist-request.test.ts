@@ -3,10 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 import { createWaitlistHandler } from "./handle-waitlist-request";
 import { DuplicateEmailError } from "./save-waitlist-entry";
 
-function makeRequest(body: unknown) {
+function makeRequest(body: unknown, headers: Record<string, string> = {}) {
   return new Request("http://localhost/api/waitlist", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
   });
 }
@@ -109,6 +109,47 @@ describe("createWaitlistHandler", () => {
 
     expect(response.status).toBe(429);
     expect(saveWaitlistEntry).not.toHaveBeenCalled();
+  });
+
+  it("derives the rate-limit key from the trusted trailing x-forwarded-for segment, not the client-controlled leading one", async () => {
+    const saveWaitlistEntry = vi.fn().mockResolvedValue(undefined);
+    const checkRateLimit = vi.fn().mockReturnValue(true);
+    const handler = createWaitlistHandler({ saveWaitlistEntry, checkRateLimit });
+
+    await handler(
+      makeRequest(
+        { email: "a@example.com", consent: true, honeypot: "" },
+        { "x-forwarded-for": "1.2.3.4, 10.0.0.1" },
+      ),
+    );
+    await handler(
+      makeRequest(
+        { email: "b@example.com", consent: true, honeypot: "" },
+        { "x-forwarded-for": "9.9.9.9, 10.0.0.1" },
+      ),
+    );
+
+    expect(checkRateLimit).toHaveBeenCalledTimes(2);
+    const [firstKey] = checkRateLimit.mock.calls[0];
+    const [secondKey] = checkRateLimit.mock.calls[1];
+    expect(firstKey).toBe("10.0.0.1");
+    expect(secondKey).toBe("10.0.0.1");
+    expect(firstKey).toBe(secondKey);
+  });
+
+  it("prefers x-real-ip over x-forwarded-for when both are present", async () => {
+    const saveWaitlistEntry = vi.fn().mockResolvedValue(undefined);
+    const checkRateLimit = vi.fn().mockReturnValue(true);
+    const handler = createWaitlistHandler({ saveWaitlistEntry, checkRateLimit });
+
+    await handler(
+      makeRequest(
+        { email: "a@example.com", consent: true, honeypot: "" },
+        { "x-real-ip": "203.0.113.5", "x-forwarded-for": "1.2.3.4, 10.0.0.1" },
+      ),
+    );
+
+    expect(checkRateLimit).toHaveBeenCalledWith("203.0.113.5");
   });
 
   it("rethrows unexpected storage errors instead of swallowing them", async () => {

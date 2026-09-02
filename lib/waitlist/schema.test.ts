@@ -48,6 +48,17 @@ describe("waitlistRequestSchema", () => {
     expect(result.success).toBe(false);
   });
 
+  it("rejects an email longer than 254 characters", () => {
+    const overlongLocalPart = "a".repeat(250);
+    const result = waitlistRequestSchema.safeParse({
+      email: `${overlongLocalPart}@example.com`,
+      consent: true,
+      honeypot: "",
+    });
+
+    expect(result.success).toBe(false);
+  });
+
   it("rejects a submission missing consent entirely", () => {
     const result = waitlistRequestSchema.safeParse({
       email: "user@example.com",

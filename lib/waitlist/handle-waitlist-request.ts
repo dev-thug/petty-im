@@ -1,3 +1,4 @@
+import type { WaitlistErrorCode } from "./error-code";
 import { waitlistRequestSchema } from "./schema";
 import { DuplicateEmailError, type SaveWaitlistEntry } from "./save-waitlist-entry";
 
@@ -6,6 +7,10 @@ export type WaitlistHandlerDeps = {
   checkRateLimit: (key: string) => boolean;
 };
 
+function errorResponse(code: WaitlistErrorCode, status: number): Response {
+  return Response.json({ error: code }, { status });
+}
+
 export function createWaitlistHandler({
   saveWaitlistEntry,
   checkRateLimit,
@@ -13,17 +18,20 @@ export function createWaitlistHandler({
   return async function handleWaitlistRequest(
     request: Request,
   ): Promise<Response> {
-    const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+    const ip =
+      request.headers.get("x-real-ip") ??
+      request.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
+      "unknown";
 
     if (!checkRateLimit(ip)) {
-      return Response.json({ error: "rate-limited" }, { status: 429 });
+      return errorResponse("rate-limited", 429);
     }
 
     const body = await request.json().catch(() => null);
     const parsed = waitlistRequestSchema.safeParse(body);
 
     if (!parsed.success) {
-      return Response.json({ error: "invalid-request" }, { status: 400 });
+      return errorResponse("invalid-request", 400);
     }
 
     if (parsed.data.honeypot.length > 0) {
@@ -34,7 +42,7 @@ export function createWaitlistHandler({
       await saveWaitlistEntry(parsed.data.email);
     } catch (error) {
       if (error instanceof DuplicateEmailError) {
-        return Response.json({ error: "duplicate-email" }, { status: 409 });
+        return errorResponse("duplicate-email", 409);
       }
       throw error;
     }

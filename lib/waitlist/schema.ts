@@ -7,6 +7,7 @@ export const waitlistRequestSchema = z.object({
     .string()
     .trim()
     .toLowerCase()
+    .max(254, { message: "invalid-email" })
     .refine((value) => EMAIL_PATTERN.test(value), {
       message: "invalid-email",
     }),

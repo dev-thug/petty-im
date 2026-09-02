@@ -10,7 +10,11 @@ export function getSql(): Sql {
     if (!connectionString) {
       throw new Error("Missing required environment variable: DATABASE_URL");
     }
-    cached = postgres(connectionString);
+    cached = postgres(connectionString, {
+      max: 1,
+      idle_timeout: 20,
+      prepare: false,
+    });
   }
   return cached;
 }

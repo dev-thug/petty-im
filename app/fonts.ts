@@ -5,7 +5,7 @@ export const pretendard = localFont({
   weight: "45 920",
   style: "normal",
   display: "swap",
-  preload: true,
+  preload: false,
   variable: "--font-pretendard",
   fallback: [
     "-apple-system",
