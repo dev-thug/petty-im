@@ -1,0 +1,30 @@
+:root {
+  /* v2 ink surfaces and text, kept private to the primitive layer. */
+  --app-ink-canvas: oklch(0.160291 0.022335 267.05);
+  --app-ink-deep: oklch(0.144318 0.019132 261.16);
+  --app-ink-surface-1: oklch(0.200634 0.023506 265.44);
+  --app-ink-surface-2: oklch(0.227226 0.024629 266.92);
+  --app-ink-surface-3: oklch(0.253632 0.027589 269.17);
+  --app-ink-border: oklch(0.293978 0.024798 268.42);
+  --app-ink-border-strong: oklch(0.357264 0.028997 268.83);
+  --app-ink-control-boundary: oklch(0.54 0.035 285);
+  --app-ink-foreground: oklch(0.973517 0.005423 274.97);
+  --app-ink-foreground-secondary: oklch(0.830331 0.014285 272.66);
+  --app-ink-muted: oklch(0.653830 0.021566 270.09);
+  --app-ink-disabled: oklch(0.510089 0.023392 267.09);
+
+  /* v2 brand states. Hover is the fixed-lightness correction for white text. */
+  --app-violet-primary: oklch(0.572802 0.230744 300.32);
+  --app-violet-hover: oklch(0.590 0.218875 303.13);
+  --app-violet-active: oklch(0.513559 0.222686 299.28);
+  --app-violet-soft: oklch(0.294121 0.081329 303.32);
+  --app-violet-mist: oklch(0.714468 0.176645 305.06);
+
+  /* Status colors stay private; roles decide where they can be used. */
+  --app-red-destructive: oklch(0.48 0.18 25);
+  --app-red-error: oklch(0.664468 0.184442 19.03);
+  --app-green-success: oklch(0.788113 0.162233 160.34);
+  --app-orange-warning: oklch(0.783529 0.153396 59.67);
+  --app-blue-info: oklch(0.699864 0.158296 257.98);
+  --app-white: oklch(1 0 0);
+}
