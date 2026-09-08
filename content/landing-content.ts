@@ -1,14 +1,37 @@
-import type { WaitlistErrorCode } from "@/lib/waitlist/error-code";
+import { APP_STORE_URL, GOOGLE_PLAY_URL } from "@/content/app-links";
+import { BUSINESS } from "@/content/legal/business";
 
-export const HERO_BACKGROUND = "/assets/welcome-background.png";
+export const HERO_BACKGROUND = "/assets/hero-background.webp";
 
-export const HERO_HEADLINE_PREFIX = "당신만의 이야기,";
-export const HERO_HEADLINE_SUFFIX = "와 함께";
+export type NavLink = {
+  id: string;
+  label: string;
+  href: string;
+};
+
+export const NAV_LINKS: readonly NavLink[] = [
+  { id: "hero", label: "서비스 소개", href: "#hero" },
+  { id: "features", label: "주요 기능", href: "#features" },
+  { id: "characters", label: "캐릭터", href: "#characters" },
+  { id: "download", label: "다운로드", href: "#download" },
+];
+
+export const NAV_CTA_LABEL = "지금 시작하기";
+
+export const HERO_TITLE_LINES = [
+  "상상 속 캐릭터와",
+  "내가 주인공이 되는",
+] as const;
+
+export const HERO_TITLE_HIGHLIGHT = "이야기, Petty";
 
 export const HERO_DESCRIPTION = [
-  "당신만의 캐릭터와 함께, 특별한 이야기가 시작됩니다.",
-  "가장 먼저 만나보세요.",
+  "취향에 맞는 AI 캐릭터를 만나고,",
+  "대화로 나만의 이야기를 만들어보세요.",
 ] as const;
+
+export const HERO_PRIMARY_CTA_LABEL = "페티 시작하기";
+export const HERO_SECONDARY_CTA_LABEL = "캐릭터 둘러보기";
 
 export type FeatureHighlight = {
   id: string;
@@ -16,40 +39,121 @@ export type FeatureHighlight = {
   description: string;
 };
 
+export const FEATURES_TITLE = "Petty는 이런 공간이에요";
+export const FEATURES_SUBTITLE =
+  "AI 캐릭터와 대화하고, 관계를 쌓아가는 새로운 경험";
+
 export const FEATURE_HIGHLIGHTS: readonly FeatureHighlight[] = [
   {
-    id: "chat",
-    title: "캐릭터와의 대화",
-    description: "나만을 기다리는 캐릭터와 몰입감 있는 대화를 나눠보세요.",
+    id: "characters",
+    title: "나만의 AI 캐릭터",
+    description: "다양한 캐릭터와 대화하고 특별한 관계를 만들어가요.",
   },
   {
-    id: "create",
-    title: "나만의 캐릭터 만들기",
-    description: "성격과 말투까지, 당신만의 캐릭터를 직접 만들 수 있어요.",
+    id: "memory",
+    title: "기억하고 이어지는 대화",
+    description: "AI가 대화를 기억하고 더 깊고 자연스럽게 이어가요.",
   },
   {
-    id: "worldbook",
-    title: "세계관과 스토리",
-    description: "월드북으로 캐릭터의 세계관을 채우고 이야기를 확장해보세요.",
+    id: "records",
+    title: "나만의 공간과 기록",
+    description: "소중한 대화와 순간을 기록하고 들여다볼 수 있어요.",
+  },
+  {
+    id: "story",
+    title: "당신의 이야기, Petty",
+    description: "AI 캐릭터와 함께 만드는 당신만의 이야기.",
   },
 ];
 
-export const WAITLIST_EMAIL_LABEL = "이메일";
-export const WAITLIST_EMAIL_PLACEHOLDER = "name@example.com";
-export const WAITLIST_CONSENT_LABEL =
-  "이메일은 출시 알림 발송 목적으로만 사용되며, 알림 발송 후 즉시 파기됩니다.";
-export const WAITLIST_SUBMIT_LABEL = "가장 먼저 알림받기";
-export const WAITLIST_SUBMIT_PENDING_LABEL = "등록하는 중…";
-export const WAITLIST_SUCCESS_MESSAGE =
-  "등록되었어요. 출시 소식을 가장 먼저 알려드릴게요.";
+export const FEATURE_CHAT_PREVIEW = {
+  incoming: ["선배, 오늘도 늦었네요?", "괜찮으세요?"],
+  outgoing: ["응, 괜찮아.", "내가 있어서 다행이야."],
+} as const;
 
-export const WAITLIST_ERROR_MESSAGES: Record<WaitlistErrorCode, string> = {
-  "invalid-request": "올바른 이메일 주소를 입력해 주세요.",
-  "duplicate-email": "이미 등록된 이메일이에요.",
-  "rate-limited": "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.",
-  network: "네트워크 연결을 확인하고 다시 시도해 주세요.",
-  unknown: "등록에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+export type FeatureRecordPreview = {
+  id: string;
+  name: string;
+  role: string;
+  message: string;
+  time: string;
 };
 
-export const FOOTER_CONTACT_EMAIL = "hello@petty.im";
+export const FEATURE_RECORD_PREVIEWS: readonly FeatureRecordPreview[] = [
+  {
+    id: "seoha",
+    name: "서하",
+    role: "차가운 후배",
+    message: "...흠, 별 말씀을요.",
+    time: "2시간 전",
+  },
+  {
+    id: "ian",
+    name: "이안",
+    role: "천재 연구원",
+    message: "새로운 실험 결과가 나왔습니다.",
+    time: "2시간 전",
+  },
+  {
+    id: "kyle",
+    name: "카일",
+    role: "도시의 히어로",
+    message: "정의를 포기하지 않아.",
+    time: "1일 전",
+  },
+];
+
+export type Character = {
+  id: string;
+  name: string;
+  role: string;
+  genre: string;
+};
+
+export const CHARACTERS_TITLE = "다양한 캐릭터를 만나보세요";
+export const CHARACTERS_SUBTITLE =
+  "로맨스, 판타지, 현대, SF 등 다양한 장르의 캐릭터";
+
+export const CHARACTERS: readonly Character[] = [
+  { id: "seoha", name: "서하", role: "차가운 후배", genre: "로맨스" },
+  { id: "ian", name: "이안", role: "천재 연구원", genre: "현대" },
+  { id: "yuri", name: "유리", role: "소꿉친구", genre: "로맨스" },
+  { id: "kyle", name: "카일", role: "도시의 히어로", genre: "SF" },
+  { id: "elia", name: "엘리아", role: "마법사", genre: "판타지" },
+];
+
+export const CHARACTERS_MORE_LABEL = ["더 많은 캐릭터", "만들기"] as const;
+
+export const DOWNLOAD_TITLE = "지금 Petty를 시작하세요";
+export const DOWNLOAD_SUBTITLE =
+  "Petty는 언제나 당신의 이야기를 기다리고 있어요.";
+export const DOWNLOAD_QR_LABEL = "QR코드로 다운로드";
+
+export const STORE_BADGES = {
+  appStore: {
+    eyebrow: "Download on the",
+    label: "App Store",
+    href: APP_STORE_URL,
+  },
+  googlePlay: {
+    eyebrow: "GET IT ON",
+    label: "Google Play",
+    href: GOOGLE_PLAY_URL,
+  },
+} as const;
+
+export const FOOTER_TAGLINE = [
+  "AI 캐릭터와 함께하는",
+  "특별한 이야기의 시작",
+] as const;
+
+export const FOOTER_CONTACT_EMAIL = BUSINESS.supportEmail;
+
+export const FOOTER_LINKS: readonly NavLink[] = [
+  { id: "about", label: "서비스 소개", href: "#hero" },
+  { id: "terms", label: "이용약관", href: "/terms" },
+  { id: "privacy", label: "개인정보처리방침", href: "/privacy" },
+  { id: "support", label: "고객센터", href: `mailto:${FOOTER_CONTACT_EMAIL}` },
+];
+
 export const FOOTER_COPYRIGHT = `© ${new Date().getFullYear()} Petty. All rights reserved.`;
