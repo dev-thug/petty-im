@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const WORDMARK_SRC = "/assets/wordmark.png";
-const WORDMARK_ALT = "페티";
+const WORDMARK_ALT = "Petty";
 const WORDMARK_WIDTH = 2172;
 const WORDMARK_HEIGHT = 724;
 
