@@ -29,3 +29,7 @@ Thumbs.db
 # agent tooling (keep launch.json, ignore per-developer state)
 .claude/*
 !.claude/launch.json
+
+# local QA/design audit artifacts (machine-specific paths, not shipped)
+/output/
+/design-qa.md
