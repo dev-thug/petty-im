@@ -7,10 +7,7 @@ import { DuplicateEmailError } from "./save-waitlist-entry";
 function createFakeSql(
   behavior: "success" | "duplicate" | "connection-error",
 ): Sql {
-  const fn = async (
-    _strings: TemplateStringsArray,
-    ..._values: unknown[]
-  ) => {
+  const fn = async () => {
     if (behavior === "duplicate") {
       const error = new Error(
         'duplicate key value violates unique constraint "waitlist_entries_pkey"',

@@ -6,21 +6,48 @@
 - Japan: Japanese (`ja`)
 - United States: English (`en`)
 
+## URL structure
+
+Each language has its own address. This is what lets search engines index all
+three: a single URL that changes language by cookie or IP shows a crawler only
+one version, and Googlebot crawls from US IPs with no cookie and no
+`Accept-Language`.
+
+| Locale | Landing URL |
+| --- | --- |
+| Korean | `/` |
+| Japanese | `/ja` |
+| English | `/en` |
+
+Korean sits at the root so the most linked-to URL never redirects. `/terms`,
+`/privacy` and `/alternatives/*` are Korean-only and live at the root as well.
+
+Every landing page carries a self-referencing canonical plus the full hreflang
+set (`ko-KR`, `ja-JP`, `en-US`, `x-default` to `/`). `lib/seo/site.ts` builds
+both from one place; `app/sitemap.ts` repeats the same set as `<xhtml:link>`
+entries, including the self-reference that Next does not add on its own.
+
 ## Selection order
 
-1. Valid `?lang=ko|ja|en` URL parameter; also saves a first-party `petty-locale` preference cookie for one year.
-2. Saved language preference.
-3. Supported country hint (`JP` → `ja`, `US` → `en`, `KR` → `ko`).
-4. `Accept-Language`, respecting regional variants, quality weights and exclusions.
-5. Korean fallback.
+`proxy.ts` derives the rendered language from the path alone, so the same URL
+always returns the same language. Visitor signals only decide where to *send*
+someone, never what a given URL contains:
 
-`proxy.ts` selects the locale before rendering and replaces the internal request header. Root layout renders the correct `html[lang]`, localized metadata and content on the server. A language switch preserves the current section and other query parameters. No external geolocation API or location permission is used.
+1. A valid `?lang=ko|ja|en` parameter redirects (307) to that language's URL and
+   saves the first-party `petty-locale` cookie for one year.
+2. At `/` only, and only for a real browser navigation (`Sec-Fetch-Mode:
+   navigate`), the saved cookie, then the country hint, then `Accept-Language`
+   choose a language; a non-Korean result redirects to `/ja` or `/en`.
+3. Everything else renders the language its path names.
+
+Crawlers do not send `Sec-Fetch-Mode`, so `/` stays Korean for them instead of
+redirecting to `/en` on a US IP. Deeper paths are never redirected.
 
 ## Country integration
 
 Reads `COUNTRY_HEADER` if configured, followed by `x-vercel-ip-country`, `cloudfront-viewer-country`, and `cf-ipcountry`. The CDN must actually forward country information. CloudFront requires a suitable origin request policy to include `CloudFront-Viewer-Country`. If hosting does not supply a country header, browser language is the fallback; local development cannot infer a real country from localhost.
 
-Country is only a presentation hint, never an authorization or compliance signal. The page uses request-time rendering; do not add shared CDN caching that ignores visitor language/cookies. Proxy matching is restricted to `/`, leaving APIs, images and framework assets unaffected.
+Country is only a presentation hint, never an authorization or compliance signal. Pages render at request time, so Next marks them uncacheable on its own and the proxy sets no `Cache-Control` of its own; a header set there does not survive Next's response pipeline. Only `/` varies by visitor, and the redirect decision runs in the proxy on every request rather than out of a cache. Proxy matching covers pages and excludes APIs, framework assets, images, `robots.txt` and `sitemap.xml`.
 
 ## Translation coverage
 
@@ -37,6 +64,6 @@ These remain promotional illustrations, not proof of shipped native-app localiza
 
 ## Validation
 
-39 tests pass, including locale precedence, browser quality-weight parsing, cookie persistence, internal-header replacement, translation coverage and character/feature identity. TypeScript, lint (two existing warnings) and production build pass.
+46 tests pass, including path-to-locale mapping, the crawler case at `/` (US IP, no `Accept-Language`, spoofed internal header), `?lang=` redirects, browser-only root redirection and translation coverage. TypeScript, lint (two existing warnings) and production build pass.
 
-HTTP requests verified country-driven Japanese and English, Japanese browser fallback, and a saved Korean preference overriding a US country hint. Browser verified English/Japanese server titles, language selection, persistence on a plain `/` visit, localized launch form, and mobile layouts. No real signup submitted.
+HTTP requests verified that `/`, `/ja` and `/en` each return their own language to a cookie-free request, that a US-IP request with no `Accept-Language` still gets Korean at `/`, and that `?lang=` and browser navigation redirect as described. The rendered HTML was checked for `html[lang]`, canonical and the hreflang set on every locale.

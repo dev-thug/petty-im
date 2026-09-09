@@ -4,6 +4,7 @@
 @import "../design-system/styles/primitives.css";
 @import "./landing.css";
 @import "./legal.css";
+@import "./comparison.css";
 
 @custom-variant dark (&:is(.dark *));
 

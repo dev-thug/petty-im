@@ -1,10 +1,15 @@
 "use client";
-import { useLandingContent } from "@/components/landing/LocaleProvider";
+import {
+  useLandingContent,
+  useLocale,
+} from "@/components/landing/LocaleProvider";
+import { COMPARISON_HUB } from "@/content/comparisons";
 import { Wordmark } from "@/components/ui/wordmark";
 
 export function SiteFooter() {
   const { FOOTER_COPYRIGHT, FOOTER_CONTACT_EMAIL, FOOTER_TAGLINE, UI } =
     useLandingContent();
+  const locale = useLocale();
   return (
     <footer className="landing-footer">
       <div className="footer-inner">
@@ -18,6 +23,11 @@ export function SiteFooter() {
         </p>
         <nav aria-label={UI.footerNavigation}>
           <a href="#hero">{UI.about}</a>
+          {locale === "ko" && (
+            <a href={COMPARISON_HUB.href} hrefLang="ko">
+              {COMPARISON_HUB.label}
+            </a>
+          )}
           <a href="/terms" hrefLang="ko">
             {UI.terms}
           </a>

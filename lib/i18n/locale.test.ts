@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveLocale } from "./locale";
+import { localeFromPathname, localePath, resolveLocale } from "./locale";
 
 describe("landing locale negotiation", () => {
   it("prioritizes explicit selection over saved choice and country", () => {
@@ -42,5 +42,24 @@ describe("landing locale negotiation", () => {
     ).toBe("ko");
     expect(resolveLocale({ acceptLanguage: "fr,de" })).toBe("ko");
     expect(resolveLocale({})).toBe("ko");
+  });
+});
+
+describe("locale paths", () => {
+  it("maps paths to locales with Korean at the root", () => {
+    expect(localeFromPathname("/")).toBe("ko");
+    expect(localeFromPathname("/terms")).toBe("ko");
+    expect(localeFromPathname("/ja")).toBe("ja");
+    expect(localeFromPathname("/ja/terms")).toBe("ja");
+    expect(localeFromPathname("/en")).toBe("en");
+    // A path that merely starts with the letters is not that locale.
+    expect(localeFromPathname("/japanese-guide")).toBe("ko");
+  });
+
+  it("translates a path into another language", () => {
+    expect(localePath("/", "ja")).toBe("/ja");
+    expect(localePath("/ja", "ko")).toBe("/");
+    expect(localePath("/ja/terms", "en")).toBe("/en/terms");
+    expect(localePath("/en", "en")).toBe("/en");
   });
 });

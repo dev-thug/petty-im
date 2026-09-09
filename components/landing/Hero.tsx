@@ -42,39 +42,34 @@ export function Hero() {
   } = useLandingContent();
   return (
     <section className="landing-hero" id="hero">
-      <Image
-        alt=""
-        className="hero-art"
-        fill
-        preload
-        sizes="100vw"
-        src={HERO_BACKGROUND}
-      />
-      <div className="hero-starfield" aria-hidden="true">
-        {HERO_STARS.map((star, index) => (
-          <span
-            key={index}
-            className="hero-star"
-            style={{
-              left: `${star.left}%`,
-              top: `${star.top}%`,
-              width: star.size,
-              height: star.size,
-              boxShadow: star.glow
-                ? `0 0 ${star.size * 3}px rgba(255,255,255,0.9)`
-                : undefined,
-              animation: `hero-twinkle ${star.duration}s ease-in-out ${star.delay}s infinite`,
-            }}
-          />
-        ))}
+      <div className="hero-art-frame" aria-hidden="true">
+        <Image
+          alt=""
+          className="hero-art"
+          fill
+          preload
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          src={HERO_BACKGROUND}
+        />
+        <div className="hero-starfield" aria-hidden="true">
+          {HERO_STARS.map((star, index) => (
+            <span
+              key={index}
+              className="hero-star"
+              style={{
+                left: `${star.left}%`,
+                top: `${star.top}%`,
+                width: star.size,
+                height: star.size,
+                boxShadow: star.glow
+                  ? `0 0 ${star.size * 3}px rgba(255,255,255,0.9)`
+                  : undefined,
+                animation: `hero-twinkle ${star.duration}s ease-in-out ${star.delay}s infinite`,
+              }}
+            />
+          ))}
+        </div>
       </div>
-      <Image
-        alt=""
-        className="hero-bubble"
-        width={160}
-        height={160}
-        src="/assets/heart-bubble.webp"
-      />
       <div className="hero-copy">
         <h1>
           {HERO_TITLE_LINES.map((line) => (

@@ -18,7 +18,9 @@ Node.js 22.x / npm 10.x. 이 랜딩페이지를 실행하는 데 데이터베이
 - App Store / Google Play 링크: 실제 URL이 있을 때만 `NEXT_PUBLIC_APP_STORE_URL`, `NEXT_PUBLIC_GOOGLE_PLAY_URL`로 설정합니다. 미설정 시 스토어 배지는 표시하지 않습니다.
 - 사업자 정보: `content/legal/business.ts`. 푸터와 정책 페이지가 같은 정보를 사용합니다.
 - 약관 및 개인정보처리방침: `/terms`, `/privacy` (한국어 원문).
-- 다국어: 한국어·일본어·영어. 국가·브라우저 언어 자동 선택 및 수동 선택 저장은 `docs/design/localization.md` 참고.
+- 다국어: 한국어 `/`, 일본어 `/ja`, 영어 `/en`. 경로가 언어를 결정하며 자동 선택은 `/`의 브라우저 진입에만 적용됩니다. `docs/design/localization.md` 참고.
+- 경쟁사 비교 페이지: `/alternatives`, `/alternatives/[slug]`. 내용은 `content/comparisons/`.
+- 검색엔진 소유확인: `NEXT_PUBLIC_NAVER_SITE_VERIFICATION` 등 설정 시에만 메타태그가 출력됩니다. 등록 절차는 `docs/marketing/seo.md` 참고.
 
 기존 이메일 신청 서비스는 종료했습니다. `/api/waitlist`는 `410 Gone`을 반환하며 요청 본문을 읽거나 DB에 연결하지 않습니다. 이전 데이터·테이블을 자동 삭제하지 않으며, 기존 보유 정보의 정리는 운영자가 확인해 별도로 진행합니다. `lib/waitlist`의 과거 처리 모듈은 운영 경로에서 사용하지 않습니다.
 

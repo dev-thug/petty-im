@@ -42,3 +42,36 @@ export function resolveLocale({
       Locale | undefined) ?? "ko"
   );
 }
+
+/**
+ * Path prefix that serves each locale. Korean lives at the site root so the most
+ * linked-to URL never redirects, and each language keeps one crawlable address.
+ */
+export const LOCALE_PREFIX: Record<Locale, string> = {
+  ko: "",
+  ja: "/ja",
+  en: "/en",
+};
+
+/** Locale a URL path serves. The path is the only signal, so crawlers and
+ * visitors always see the same content at the same address. */
+export function localeFromPathname(pathname: string): Locale {
+  const match = LOCALES.find((locale) => {
+    const prefix = LOCALE_PREFIX[locale];
+    return (
+      prefix !== "" &&
+      (pathname === prefix || pathname.startsWith(`${prefix}/`))
+    );
+  });
+  return match ?? "ko";
+}
+
+/** Same page in another language. */
+export function localePath(pathname: string, locale: Locale): string {
+  const current = LOCALE_PREFIX[localeFromPathname(pathname)];
+  // A trailing slash would make "/ja/" a second URL for the same page.
+  const rest = (
+    current === "" ? pathname : pathname.slice(current.length)
+  ).replace(/\/$/, "");
+  return `${LOCALE_PREFIX[locale]}${rest}` || "/";
+}

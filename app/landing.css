@@ -10,12 +10,6 @@
   border-radius: 50%;
   background: white;
 }
-@media (max-width: 700px) {
-  .hero-starfield {
-    top: auto;
-    height: 54%;
-  }
-}
 
 html {
   scroll-behavior: smooth;
@@ -24,6 +18,11 @@ html {
 .landing-page {
   background: #070819;
   color: #eeeaf4;
+  /* Shared spacing roles: section separation, heading rhythm, and card inset. */
+  --landing-section-gap: clamp(48px, 6.25vw, 80px);
+  --landing-heading-gap: clamp(24px, 3vw, 36px);
+  --landing-grid-gap: clamp(16px, 1.875vw, 24px);
+  --landing-card-inset: clamp(16px, 1.875vw, 24px);
   --primary: #6935b1;
   --primary-hover: #814cc9;
   --text-secondary: #c3bfd3;
@@ -49,6 +48,17 @@ html {
   height: min(50.4vw, 645px);
   min-height: 510px;
   overflow: hidden;
+  background: #070819;
+}
+.hero-art-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  /* Keep the artwork aligned with the capped copy on wide screens. */
+  --hero-edge-fade: clamp(0px, calc((100vw - 1184px) / 2), 64px);
+  mask-image: linear-gradient(to right, transparent, #000 var(--hero-edge-fade), #000 calc(100% - var(--hero-edge-fade)), transparent);
 }
 .hero-art {
   object-fit: cover;
@@ -191,7 +201,7 @@ html {
 }
 .section-heading {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--landing-heading-gap);
 }
 .section-heading h2 {
   font-size: 25px;
@@ -205,32 +215,37 @@ html {
 .section-heading p {
   font-size: 15px;
   color: #b8b5cc;
-  margin-top: 4px;
+  margin-top: 12px;
+  line-height: 1.7;
+  text-wrap: pretty;
 }
 .landing-features {
-  padding-top: 20px;
+  padding-top: var(--landing-section-gap);
 }
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--landing-grid-gap);
 }
 .feature-card {
   border: 1px solid #3c345d;
   border-radius: 16px;
   background: #111027;
-  padding: 21px 13px 10px;
+  padding: var(--landing-card-inset);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   min-width: 0;
   text-align: center;
-  height: 270px;
+  min-height: 310px;
   box-shadow: inset 0 0 32px #28204a30;
 }
 .feature-card h3 {
   font-size: 18px;
   font-weight: 550;
   color: #c5a5f1;
-  white-space: nowrap;
+  text-wrap: balance;
+  line-height: 1.45;
   letter-spacing: -0.035em;
 }
 .feature-description {
@@ -242,8 +257,9 @@ html {
   word-break: keep-all;
 }
 .feature-visual {
-  height: 151px;
-  margin-top: 13px;
+  min-height: 155px;
+  flex: 1;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,20 +372,17 @@ html {
 .story-art {
   width: 100%;
   height: 155px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   mix-blend-mode: normal;
 }
 .landing-characters {
-  padding: 16px 19px 0;
-}
-.landing-characters .section-heading {
-  margin-bottom: 14px;
+  padding-top: var(--landing-section-gap);
 }
 .character-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 18px;
+  gap: var(--landing-grid-gap);
 }
 .character-card,
 .more-characters {
@@ -398,7 +411,7 @@ html {
   position: absolute;
   inset: auto 0 0;
   background: #111025e8;
-  padding: 10px 4px;
+  padding: 14px 8px;
   text-align: center;
 }
 .character-caption strong {
@@ -432,7 +445,9 @@ html {
 }
 .landing-download {
   overflow: hidden;
-  margin-top: 12px;
+  margin-top: var(--landing-section-gap);
+  padding-top: 24px;
+  border-top: 1px solid #30284980;
   background: #08091f;
 }
 .download-inner {
@@ -496,7 +511,8 @@ html {
   background: #060716;
 }
 .footer-inner {
-  min-height: 85px;
+  min-height: 112px;
+  padding-block: 28px;
   max-width: 1120px;
   width: 85%;
   margin: auto;
@@ -581,8 +597,7 @@ html {
 }
 @media (min-width: 1200px) {
   .feature-card {
-    height: 310px;
-    padding-top: 26px;
+    min-height: 330px;
   }
   .feature-visual {
     height: 170px;
@@ -599,12 +614,6 @@ html {
   .more-characters {
     height: 235px;
   }
-  .landing-characters {
-    padding-top: 23px;
-  }
-  .landing-download {
-    margin-top: 20px;
-  }
   .download-inner {
     height: 355px;
   }
@@ -613,12 +622,6 @@ html {
   }
   .download-copy > p {
     font-size: 19px;
-  }
-  .landing-features {
-    padding-top: 25px;
-  }
-  .section-heading {
-    margin-bottom: 22px;
   }
   .section-heading h2 {
     font-size: 29px;
@@ -632,10 +635,7 @@ html {
     width: calc(100% - 40px);
   }
   .feature-grid {
-    gap: 12px;
-  }
-  .feature-card {
-    padding-inline: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .feature-card h3 {
     font-size: 15px;
@@ -689,11 +689,13 @@ html {
     height: 850px;
     max-height: 1000px;
   }
+  .hero-art-frame {
+    height: 54%;
+    top: auto;
+    mask-image: none;
+  }
   .hero-art {
-    object-fit: cover;
     object-position: 70% bottom;
-    height: 54% !important;
-    top: auto !important;
   }
   .hero-copy {
     padding-top: 115px;
@@ -724,15 +726,11 @@ html {
   .hero-stores {
     margin-top: 15px;
   }
-  .landing-features {
-    padding-top: 28px;
-  }
   .feature-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .feature-card {
-    height: 265px;
-    padding-top: 21px;
+    min-height: 290px;
   }
   .feature-card h3 {
     font-size: 16px;
@@ -747,9 +745,6 @@ html {
   .section-heading p {
     font-size: 13px;
     word-break: keep-all;
-  }
-  .landing-characters {
-    padding: 32px 0 0;
   }
   .character-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -815,8 +810,11 @@ html {
   .landing-container {
     width: calc(100% - 28px);
   }
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
   .feature-card h3 {
-    font-size: 14px;
+    font-size: 18px;
   }
   .character-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -844,12 +842,6 @@ html {
   }
 }
 @media (min-width: 701px) {
-  .landing-hero .hero-art {
-    width: 110% !important;
-    height: 106% !important;
-    max-width: none;
-    object-fit: fill;
-  }
   .hero-copy > p {
     margin-top: 13px;
   }
@@ -858,20 +850,6 @@ html {
   }
   .hero-stores {
     margin-top: 21px;
-  }
-}
-.hero-bubble {
-  position: absolute;
-  width: 13%;
-  height: auto;
-  right: 11%;
-  top: 28%;
-}
-@media (max-width: 700px) {
-  .hero-bubble {
-    width: 22%;
-    right: 7%;
-    top: 56%;
   }
 }
 .landing-header {
@@ -972,15 +950,6 @@ html {
   .hero-copy h1 .hero-highlight {
     margin-top: 4px;
   }
-  .landing-features .section-heading {
-    margin-bottom: 14px;
-  }
-  .landing-characters {
-    padding-top: 10px;
-  }
-  .landing-characters .section-heading {
-    margin-bottom: 8px;
-  }
 }
 
 /* Localized copy keeps the same visual rhythm without clipping longer labels. */
@@ -1021,7 +990,7 @@ html:not([lang="ko"]) .feature-visual {
   height: 132px;
 }
 html:not([lang="ko"]) .feature-card {
-  height: 290px;
+  min-height: 310px;
 }
 html:not([lang="ko"]) .record-row strong {
   overflow: hidden;
@@ -1043,7 +1012,7 @@ html:not([lang="ko"]) .hero-copy h1 {
 }
 @media (min-width: 1200px) {
   html:not([lang="ko"]) .feature-card {
-    height: 310px;
+    min-height: 330px;
   }
   html:not([lang="ko"]) .feature-card h3 {
     font-size: 19px;
@@ -1104,7 +1073,7 @@ html:not([lang="ko"]) .hero-copy h1 {
     font-size: 12px;
   }
   html:not([lang="ko"]) .feature-card {
-    height: 290px;
+    min-height: 310px;
   }
   html:not([lang="ko"]) .footer-inner > p {
     font-size: 10px;

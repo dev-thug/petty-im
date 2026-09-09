@@ -1,4 +1,5 @@
 import { getRequestLocale } from "@/lib/i18n/server";
+import { SITE_URL, siteVerification } from "@/lib/seo/site";
 import { landingLocales } from "@/content/landing-locales";
 import { LocaleProvider } from "@/components/landing/LocaleProvider";
 import type { Metadata, Viewport } from "next";
@@ -14,20 +15,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: META.title,
     description: META.description,
-    metadataBase: new URL("https://petty.im"),
-    alternates: {
-      canonical: `/?lang=${locale}`,
-      languages: {
-        "ko-KR": "/?lang=ko",
-        "ja-JP": "/?lang=ja",
-        "en-US": "/?lang=en",
-        "x-default": "/",
-      },
-    },
+    applicationName: "Petty",
+    metadataBase: new URL(SITE_URL),
+    verification: siteVerification(),
+    // Canonical and hreflang belong to each page: only the page knows which
+    // languages it exists in, and a wrong canonical here would override them.
     openGraph: {
-      title: META.title,
-      description: META.description,
-      url: `/?lang=${locale}`,
       siteName: "Petty",
       locale: META.ogLocale,
       type: "website",
