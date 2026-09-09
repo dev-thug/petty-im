@@ -22,7 +22,7 @@ Node.js 22.x / npm 10.x. 이 랜딩페이지를 실행하는 데 데이터베이
 - 경쟁사 비교 페이지: `/alternatives`, `/alternatives/[slug]`. 내용은 `content/comparisons/`.
 - 검색엔진 소유확인: `NEXT_PUBLIC_NAVER_SITE_VERIFICATION` 등 설정 시에만 메타태그가 출력됩니다. 등록 절차는 `docs/marketing/seo.md` 참고.
 
-기존 이메일 신청 서비스는 종료했습니다. `/api/waitlist`는 `410 Gone`을 반환하며 요청 본문을 읽거나 DB에 연결하지 않습니다. 이전 데이터·테이블을 자동 삭제하지 않으며, 기존 보유 정보의 정리는 운영자가 확인해 별도로 진행합니다. `lib/waitlist`의 과거 처리 모듈은 운영 경로에서 사용하지 않습니다.
+기존 이메일 신청 서비스는 종료했습니다. `/api/waitlist`는 이전 클라이언트를 위해 `410 Gone`만 반환하며 요청 본문을 읽거나 DB에 연결하지 않습니다. 과거 처리 모듈(`lib/waitlist`)과 `postgres` 의존성은 제거했고, 구현 이력은 `docs/superpowers/plans/2026-09-02-landing-page.md`에 남아 있습니다. 이전 데이터·테이블을 자동 삭제하지 않으며, 기존 보유 정보의 정리는 운영자가 확인해 별도로 진행합니다.
 
 ## 배포
 
