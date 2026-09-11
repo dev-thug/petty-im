@@ -15,8 +15,9 @@ export function sendEvent(
   if (typeof window === "undefined" || typeof window.gtag !== "function") {
     return;
   }
-  // Beacon so the hit survives the navigation most tracked clicks trigger.
-  window.gtag("event", name, { ...params, transport_type: "beacon" });
+  // No transport_type: GA4 already sends with keepalive and flushes on pagehide,
+  // and it forwards that field as a junk `ep.transport_type` parameter.
+  window.gtag("event", name, params);
 }
 
 export function track<E extends AnalyticsEventName>(

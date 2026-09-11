@@ -32,7 +32,7 @@
 | `store_badge_click` ★ | `store`(`app_store` / `google_play`), `cta_location`(`hero` / `download`) | App Store · Google Play 배지. 스토어 URL 환경변수가 설정돼야 배지가 보이므로 **지금은 발생하지 않습니다.** |
 | `select_content` | `content_type`=`character`, `content_id` | 캐릭터 카드를 눌러 소개 대화창을 열 때 (GA4 권장 이벤트) |
 | `navigation_click` | `nav_location`(`header` / `footer` / `hero` / `toc` / `related`), `nav_item` | 헤더 · 푸터 링크, 히어로 보조 CTA, 약관 · 비교 목차, 다른 비교 링크 |
-| `contact_click` | `cta_location`(`footer` / `legal_contact` / `legal_footer` / `comparison_footer` / `hub_footer`) | 고객 문의 메일 링크 |
+| `contact_click` | `cta_location`(`footer` / `legal_contact` / `legal_footer` / `comparison_footer` / `hub_footer` / `business_info`) | 고객 문의 메일 링크. `business_info`는 약관 · 방침의 사업자 정보 블록 |
 | `language_change` | `from_locale`, `to_locale` | 언어 선택기. 페이지 이동 전에 beacon으로 전송 |
 | `menu_toggle` | `menu_state`(`open` / `close`) | 모바일 메뉴 버튼 |
 | `section_view` | `section_id` | 섹션이 화면 가운데 띠를 처음 지날 때 페이지당 1회. 랜딩 `features` · `characters` · `download`, 비교 `at-a-glance` · `who` · `faq` · `cta`, 허브 `list` · `criteria` · `faq` · `cta` |

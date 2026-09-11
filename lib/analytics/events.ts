@@ -44,7 +44,8 @@ export type AnalyticsEvents = {
       | "legal_contact"
       | "legal_footer"
       | "comparison_footer"
-      | "hub_footer";
+      | "hub_footer"
+      | "business_info";
   };
   language_change: { from_locale: Locale; to_locale: Locale };
   menu_toggle: { menu_state: "open" | "close" };

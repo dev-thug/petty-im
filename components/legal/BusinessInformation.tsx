@@ -1,4 +1,5 @@
 import { BUSINESS } from "@/content/legal/business";
+import { trackingAttributes } from "@/lib/analytics/events";
 import type { Locale } from "@/lib/i18n/locale";
 const labels = {
   ko: {
@@ -51,7 +52,12 @@ export function BusinessInformation({ locale = "ko" }: { locale?: Locale }) {
         <div>
           <dt>{t.email}</dt>
           <dd>
-            <a href={`mailto:${BUSINESS.supportEmail}`}>
+            <a
+              href={`mailto:${BUSINESS.supportEmail}`}
+              {...trackingAttributes("contact_click", {
+                cta_location: "business_info",
+              })}
+            >
               {BUSINESS.supportEmail}
             </a>
           </dd>
