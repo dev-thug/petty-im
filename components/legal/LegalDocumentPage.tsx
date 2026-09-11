@@ -4,13 +4,13 @@ import Link from "next/link";
 import { Wordmark } from "@/components/ui/wordmark";
 import {
   BUSINESS,
-  LEGAL_UPDATED_AT,
+  documentUpdatedAt,
   type LegalDocument,
 } from "@/content/legal/business";
 import { trackingAttributes } from "@/lib/analytics/events";
 
 export function LegalDocumentPage({ document }: { document: LegalDocument }) {
-  const updatedAt = document.updatedAt ?? LEGAL_UPDATED_AT;
+  const updatedAt = documentUpdatedAt(document);
   return (
     <div className="legal-page" lang="ko">
       <a className="legal-skip" href="#legal-content">

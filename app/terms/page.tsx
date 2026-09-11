@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { LegalDocumentPage } from "@/components/legal/LegalDocumentPage";
 import { terms } from "@/content/legal/terms";
+import { alternatesFor } from "@/lib/seo/site";
 
 export const metadata: Metadata = {
   title: "이용약관 | Petty",
   description: terms.description,
-  alternates: { canonical: "/terms", languages: { "ko-KR": "/terms" } },
+  alternates: alternatesFor("ko", "/terms", ["ko"]),
   openGraph: {
     title: "이용약관 | Petty",
     description: terms.description,

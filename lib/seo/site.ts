@@ -2,6 +2,10 @@ import { LOCALE_PREFIX, LOCALES, type Locale } from "@/lib/i18n/locale";
 
 export const SITE_URL = "https://petty.im";
 
+/** Korean feed of the comparison guides (see lib/seo/rss.ts). */
+export const RSS_PATH = "/rss.xml";
+export const RSS_TITLE = "Petty — AI 캐릭터 채팅 앱 비교 가이드";
+
 /** Search engines expect a language[-region] tag, not our short locale code. */
 export const HREFLANG: Record<Locale, string> = {
   ko: "ko-KR",
@@ -40,6 +44,14 @@ export function alternatesFor(
   return {
     canonical: localeRoute(locale, route),
     languages: { ...languages, "x-default": localeRoute("ko", route) },
+    // The feed is written in Korean, so only Korean pages advertise it.
+    ...(locale === "ko"
+      ? {
+          types: {
+            "application/rss+xml": [{ url: RSS_PATH, title: RSS_TITLE }],
+          },
+        }
+      : {}),
   };
 }
 

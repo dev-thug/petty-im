@@ -16,3 +16,8 @@ export type LegalDocument = {
   updatedAt?: string;
   sections: { id: string; title: string; paragraphs: string[] }[];
 };
+
+/** Revision date a legal page prints, which the sitemap reuses as its lastmod. */
+export function documentUpdatedAt(document: LegalDocument): string {
+  return document.updatedAt ?? LEGAL_UPDATED_AT;
+}

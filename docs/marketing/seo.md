@@ -27,9 +27,13 @@ Googlebot은 **미국 IP에서, 쿠키 없이, `Accept-Language` 없이** 크롤
 
 - **canonical**: 각 페이지가 자기 자신을 가리킵니다. (`https://petty.im`, `/ja`, `/en`, `/alternatives/...`)
 - **hreflang**: 모든 랜딩 페이지에 `ko-KR` · `ja-JP` · `en-US` · `x-default` 4개가 자기 자신 포함으로 들어갑니다. 자기 참조가 빠지면 세트 전체가 무시됩니다.
-- **한국어 전용 페이지**(`/terms`, `/privacy`, `/alternatives/*`)는 `ko-KR` + `x-default`만 선언합니다. 없는 번역을 광고하지 않습니다.
+- **한국어 전용 페이지**(`/terms`, `/privacy`, `/alternatives/*`)는 `ko-KR` + `x-default`만 선언합니다. 없는 번역을 광고하지 않습니다. (2026-09-11 정정: `/terms` · `/privacy`는 hreflang을 손으로 적어 `x-default`가 빠져 있었습니다. 다른 페이지처럼 `alternatesFor()`를 쓰도록 바꿨습니다.)
 - **`robots.txt`** 생성 (`/api/` 차단, 사이트맵 · host 명시).
-- **`sitemap.xml`** 생성. Next는 `<loc>` 자신에 대한 `<xhtml:link>`를 자동으로 넣지 않으므로 직접 넣었습니다.
+- **`sitemap.xml`** 생성. 페이지 10개, 각 URL의 `<lastmod>`는 **실제 콘텐츠 수정일**입니다.
+  - 2026-09-11 변경 ① — `lastmod`가 배포 시각(`new Date()`)이라 배포할 때마다 모든 페이지가 "방금 수정됨"이 됐습니다. 매번 바뀌는 lastmod는 검색엔진이 신뢰하지 않고 무시하므로, 콘텐츠 날짜 상수를 쓰도록 바꿨습니다. 랜딩 `LANDING_UPDATED_AT`(`content/landing-locales.ts`), 비교 페이지 `COMPARISON_UPDATED_AT`, 약관 · 방침 `documentUpdatedAt()`. 비교 · 약관 페이지는 본문에 같은 날짜를 표시하므로 검증 가능한 lastmod가 됩니다. **콘텐츠를 고치면 해당 상수를 올리세요.** 추적 속성이나 스타일만 바꾼 건 수정이 아닙니다.
+  - 2026-09-11 변경 ② — 사이트맵의 `<xhtml:link>` hreflang을 뺐습니다. 같은 세트가 모든 페이지 `<head>`에 이미 있어 중복이었고(구글은 셋 중 한 방법이면 충분), XHTML 네임스페이스 때문에 크롬이 사이트맵을 XML 트리가 아닌 이어 붙은 텍스트로 보여줬습니다. SEO 효과가 달라지는 변경은 아닙니다.
+  - `changefreq` · `priority`는 구글이 무시하지만 표준 필드라 그대로 둡니다.
+- **`rss.xml`**(2026-09-11) — 비교 글 4개를 담은 RSS 2.0 피드. 글 성격의 페이지만 넣었습니다(랜딩 · 약관은 사이트맵으로 충분). 한국어 페이지 `<head>`에 `<link rel="alternate" type="application/rss+xml">`로 노출합니다. 새 글(블로그 등)을 추가하면 `lib/seo/rss.ts`에 함께 넣으세요.
 - **프록시가 걸던 `Cache-Control: private, no-store`를 제거.** 페이지가 요청 시 렌더링되므로 Next가 이미 캐시 불가로 표시하며, 프록시에서 세팅한 헤더는 Next 응답 파이프라인을 통과하지 못합니다(실제 응답 헤더로 확인). 리다이렉트 판단은 캐시가 아니라 매 요청 프록시에서 이뤄집니다.
 - **`html[lang]`**이 경로별로 정확히 렌더됩니다.
 
@@ -84,7 +88,7 @@ Googlebot은 **미국 IP에서, 쿠키 없이, `Accept-Language` 없이** 크롤
 | 검색엔진 | 상태 |
 | --- | --- |
 | Google Search Console | **완료.** 도메인 속성 `sc-domain:petty.im`(apex · www · 하위 도메인 전체)을 Route 53 TXT 레코드로 소유확인. `https://petty.im/sitemap.xml` 제출 — 성공, 발견된 페이지 10개. GA4 속성과 연결. |
-| 네이버 서치어드바이저 | **완료.** 사이트 `https://petty.im`을 HTML 태그 방식으로 소유확인(토큰은 Vercel `NEXT_PUBLIC_NAVER_SITE_VERIFICATION`, Production)하고 `https://petty.im/sitemap.xml`을 제출했습니다. 메타태그를 지우면 소유확인이 풀리니 환경변수를 유지하세요. 네이버는 hreflang을 약하게 취급하므로 `html[lang]`이 중요한데, 이건 이미 맞습니다. |
+| 네이버 서치어드바이저 | **완료.** 사이트 `https://petty.im`을 HTML 태그 방식으로 소유확인(토큰은 Vercel `NEXT_PUBLIC_NAVER_SITE_VERIFICATION`, Production)하고 `https://petty.im/sitemap.xml`을 제출했습니다. 메타태그를 지우면 소유확인이 풀리니 환경변수를 유지하세요. RSS는 요청 → RSS 제출에 `https://petty.im/rss.xml`을 넣습니다. 네이버는 hreflang을 약하게 취급하므로 `html[lang]`이 중요한데, 이건 이미 맞습니다. |
 | 다음 검색등록 | 미진행 — [다음 검색등록](https://register.search.daum.net/index.daum) |
 | 빙 웹마스터 도구 | 미진행 — [빙 웹마스터 도구](https://www.bing.com/webmasters)에서 "Google Search Console에서 가져오기"를 쓰면 소유확인 없이 바로 등록됩니다. ChatGPT 검색이 Bing 인덱스를 참조합니다. |
 
