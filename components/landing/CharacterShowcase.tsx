@@ -4,6 +4,7 @@ import { useLandingContent } from "@/components/landing/LocaleProvider";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 import { Dialog } from "radix-ui";
+import { sectionAttributes, trackingAttributes } from "@/lib/analytics/events";
 
 export function CharacterShowcase() {
   const {
@@ -15,7 +16,11 @@ export function CharacterShowcase() {
     INTRODUCTIONS,
   } = useLandingContent();
   return (
-    <section className="landing-characters landing-container" id="characters">
+    <section
+      className="landing-characters landing-container"
+      id="characters"
+      {...sectionAttributes("characters")}
+    >
       <div className="section-heading">
         <h2>{CHARACTERS_TITLE}</h2>
         <p>{CHARACTERS_SUBTITLE}</p>
@@ -27,6 +32,10 @@ export function CharacterShowcase() {
               <Dialog.Trigger
                 className="character-card"
                 aria-label={`${character.name} — ${UI.characterDetails}`}
+                {...trackingAttributes("select_content", {
+                  content_type: "character",
+                  content_id: character.id,
+                })}
               >
                 <Image
                   fill
@@ -58,7 +67,14 @@ export function CharacterShowcase() {
                     {INTRODUCTIONS[character.id]}
                   </Dialog.Description>
                   <Dialog.Close asChild>
-                    <a className="landing-button" href={PETTY_APP_URL}>
+                    <a
+                      className="landing-button"
+                      href={PETTY_APP_URL}
+                      {...trackingAttributes("open_app_click", {
+                        cta_location: "character_dialog",
+                        character_id: character.id,
+                      })}
+                    >
                       {UI.storyCta}
                     </a>
                   </Dialog.Close>
@@ -71,7 +87,13 @@ export function CharacterShowcase() {
           </li>
         ))}
         <li>
-          <a className="more-characters" href={PETTY_APP_URL}>
+          <a
+            className="more-characters"
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", {
+              cta_location: "character_more",
+            })}
+          >
             <Plus size={34} strokeWidth={1.2} aria-hidden="true" />
             <span>
               {CHARACTERS_MORE_LABEL.map((line) => (

@@ -7,20 +7,44 @@ import {
   LEGAL_UPDATED_AT,
   type LegalDocument,
 } from "@/content/legal/business";
+import { trackingAttributes } from "@/lib/analytics/events";
 
 export function LegalDocumentPage({ document }: { document: LegalDocument }) {
+  const updatedAt = document.updatedAt ?? LEGAL_UPDATED_AT;
   return (
     <div className="legal-page" lang="ko">
       <a className="legal-skip" href="#legal-content">
         본문으로 건너뛰기
       </a>
       <header className="legal-header">
-        <Link href="/" aria-label="Petty 홈으로">
+        <Link
+          href="/"
+          aria-label="Petty 홈으로"
+          {...trackingAttributes("navigation_click", {
+            nav_location: "header",
+            nav_item: "home",
+          })}
+        >
           <Wordmark size="display" />
         </Link>
         <div className="legal-header-links">
-          <Link href="/">홈으로</Link>
-          <a href={PETTY_APP_URL}>페티 앱 열기</a>
+          <Link
+            href="/"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "header",
+              nav_item: "home",
+            })}
+          >
+            홈으로
+          </Link>
+          <a
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", {
+              cta_location: "legal_header",
+            })}
+          >
+            페티 앱 열기
+          </a>
         </div>
       </header>
       <main id="legal-content" className="legal-main">
@@ -30,7 +54,7 @@ export function LegalDocumentPage({ document }: { document: LegalDocument }) {
           <p>{document.description}</p>
           <p className="legal-date">
             최종 수정일{" "}
-            <time dateTime={LEGAL_UPDATED_AT}>{LEGAL_UPDATED_AT}</time> · 한국어
+            <time dateTime={updatedAt}>{updatedAt}</time> · 한국어
           </p>
         </div>
         <BusinessInformation />
@@ -39,7 +63,15 @@ export function LegalDocumentPage({ document }: { document: LegalDocument }) {
           <ol>
             {document.sections.map((section) => (
               <li key={section.id}>
-                <a href={`#${section.id}`}>{section.title}</a>
+                <a
+                  href={`#${section.id}`}
+                  {...trackingAttributes("navigation_click", {
+                    nav_location: "toc",
+                    nav_item: section.id,
+                  })}
+                >
+                  {section.title}
+                </a>
               </li>
             ))}
           </ol>
@@ -61,7 +93,12 @@ export function LegalDocumentPage({ document }: { document: LegalDocument }) {
         <aside className="legal-contact" aria-labelledby="legal-help-title">
           <h2 id="legal-help-title">도움이 필요하신가요?</h2>
           <p>페티 서비스 이용, 계정 및 개인정보 관련 문의를 보내 주세요.</p>
-          <a href={`mailto:${BUSINESS.supportEmail}`}>
+          <a
+            href={`mailto:${BUSINESS.supportEmail}`}
+            {...trackingAttributes("contact_click", {
+              cta_location: "legal_contact",
+            })}
+          >
             {BUSINESS.supportEmail}
           </a>
         </aside>
@@ -71,6 +108,10 @@ export function LegalDocumentPage({ document }: { document: LegalDocument }) {
           <Link
             href="/terms"
             aria-current={document.title === "이용약관" ? "page" : undefined}
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "terms",
+            })}
           >
             이용약관
           </Link>
@@ -79,10 +120,21 @@ export function LegalDocumentPage({ document }: { document: LegalDocument }) {
             aria-current={
               document.title === "개인정보처리방침" ? "page" : undefined
             }
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "privacy",
+            })}
           >
             개인정보처리방침
           </Link>
-          <a href={`mailto:${BUSINESS.supportEmail}`}>고객 문의</a>
+          <a
+            href={`mailto:${BUSINESS.supportEmail}`}
+            {...trackingAttributes("contact_click", {
+              cta_location: "legal_footer",
+            })}
+          >
+            고객 문의
+          </a>
         </nav>
         <BusinessInformation />
       </footer>

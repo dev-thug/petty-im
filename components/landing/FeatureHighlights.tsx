@@ -1,6 +1,7 @@
 "use client";
 import { useLandingContent } from "@/components/landing/LocaleProvider";
 import Image from "next/image";
+import { sectionAttributes } from "@/lib/analytics/events";
 
 function Avatar({
   id = "seoha",
@@ -92,7 +93,11 @@ export function FeatureHighlights() {
   const { FEATURE_HIGHLIGHTS, FEATURES_SUBTITLE, FEATURES_TITLE } =
     useLandingContent();
   return (
-    <section className="landing-features landing-container" id="features">
+    <section
+      className="landing-features landing-container"
+      id="features"
+      {...sectionAttributes("features")}
+    >
       <div className="section-heading">
         <h2>
           {FEATURES_TITLE.split("Petty")[0]}

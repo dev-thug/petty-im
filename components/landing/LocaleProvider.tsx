@@ -1,7 +1,8 @@
 "use client";
 import { createContext, useContext, type ReactNode } from "react";
-import type { Locale } from "@/lib/i18n/locale";
+import { isLocale, type Locale } from "@/lib/i18n/locale";
 import { landingLocales } from "@/content/landing-locales";
+import { track } from "@/lib/analytics/track";
 const LocaleContext = createContext<Locale>("ko");
 export function LocaleProvider({
   locale,
@@ -26,8 +27,12 @@ export function LanguageSelector() {
       aria-label={UI.language}
       value={locale}
       onChange={(event) => {
+        const value = event.target.value;
+        if (isLocale(value)) {
+          track("language_change", { from_locale: locale, to_locale: value });
+        }
         const url = new URL(window.location.href);
-        url.searchParams.set("lang", event.target.value);
+        url.searchParams.set("lang", value);
         window.location.assign(url.toString());
       }}
     >

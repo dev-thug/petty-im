@@ -77,20 +77,26 @@ Googlebot은 **미국 IP에서, 쿠키 없이, `Accept-Language` 없이** 크롤
 
 ## 4. 아직 안 된 것 — 사람이 해야 하는 작업
 
-### (1) 검색엔진 등록 — 우선순위 1위
+### (1) 검색엔진 등록 — 2026-09-11 진행 현황
 
-한국어 앱에 **네이버가 가장 큽니다.** 코드는 준비돼 있고, 토큰만 넣으면 메타태그가 나갑니다.
+**먼저 고친 것: 대표 도메인.** Vercel이 `petty.im`을 `www.petty.im`으로 308 리다이렉트하고 있었는데, canonical · hreflang · sitemap · robots `Host`는 모두 `https://petty.im`을 가리켰습니다. 모든 URL의 canonical이 리다이렉트되는 주소였던 셈이라, 등록하면 사이트맵 URL 전부가 "리다이렉트된 페이지"로 처리됐을 겁니다. Vercel 도메인 설정을 뒤집어 **`petty.im`이 Production, `www.petty.im` → `petty.im` 308**(경로 유지)로 맞췄습니다. 코드는 바꾸지 않았습니다.
+
+| 검색엔진 | 상태 |
+| --- | --- |
+| Google Search Console | **완료.** 도메인 속성 `sc-domain:petty.im`(apex · www · 하위 도메인 전체)을 Route 53 TXT 레코드로 소유확인. `https://petty.im/sitemap.xml` 제출 — 성공, 발견된 페이지 10개. GA4 속성과 연결. |
+| 네이버 서치어드바이저 | **소유확인 버튼과 사이트맵 제출만 남음.** HTML 태그 토큰을 Vercel `NEXT_PUBLIC_NAVER_SITE_VERIFICATION`(Production)에 넣었고, `https://petty.im`에 `naver-site-verification` 메타태그가 나가는 것을 확인했습니다. 서치어드바이저에서 소유확인 → 요청 → 사이트맵 제출(`https://petty.im/sitemap.xml`) → RSS 없음. 네이버는 hreflang을 약하게 취급하므로 `html[lang]`이 중요한데, 이건 이미 맞습니다. |
+| 다음 검색등록 | 미진행 — [다음 검색등록](https://register.search.daum.net/index.daum) |
+| 빙 웹마스터 도구 | 미진행 — [빙 웹마스터 도구](https://www.bing.com/webmasters)에서 "Google Search Console에서 가져오기"를 쓰면 소유확인 없이 바로 등록됩니다. ChatGPT 검색이 Bing 인덱스를 참조합니다. |
+
+Google은 DNS로 확인했기 때문에 `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`은 비워 둡니다. Route 53의 `petty.im` TXT 레코드(`google-site-verification=…`)를 지우면 소유권이 풀립니다.
 
 ```
-NEXT_PUBLIC_NAVER_SITE_VERIFICATION=
-NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
-NEXT_PUBLIC_BING_SITE_VERIFICATION=
+NEXT_PUBLIC_NAVER_SITE_VERIFICATION=   # 설정됨 (Production)
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=  # 불필요 (DNS 확인)
+NEXT_PUBLIC_BING_SITE_VERIFICATION=    # 빙을 메타태그로 확인할 때만
 ```
 
-1. [네이버 서치어드바이저](https://searchadvisor.naver.com/) — 사이트 등록 → HTML 태그 방식으로 토큰 발급 → 위 환경변수에 넣고 배포 → 소유확인 → `sitemap.xml` 제출. 네이버는 hreflang을 약하게 취급하므로 `html[lang]`이 중요한데, 이건 이미 맞습니다.
-2. [구글 서치콘솔](https://search.google.com/search-console) — 도메인 등록 후 사이트맵 제출.
-3. [다음 검색등록](https://register.search.daum.net/index.daum)
-4. [빙 웹마스터 도구](https://www.bing.com/webmasters) — ChatGPT 검색이 Bing 인덱스를 참조합니다.
+GA4 추적 설계는 [analytics.md](./analytics.md) 참고.
 
 ### (2) app.petty.im 과의 중복 확인
 
@@ -118,7 +124,7 @@ App Store / Google Play 내부 검색은 스토어 리스팅(제목 · 부제 ·
 
 ## 5. 다음에 하면 좋은 것 (우선순위 순)
 
-1. **네이버 · 구글 서치콘솔 등록 및 사이트맵 제출** — 위 (1)
+1. **네이버 소유확인 · 사이트맵 제출 마무리, 다음 · 빙 등록** — 위 (1). 구글은 완료.
 2. **스토어 URL 설정** — 앱이 App Store · Google Play에 올라가 있다면 `NEXT_PUBLIC_APP_STORE_URL` / `NEXT_PUBLIC_GOOGLE_PLAY_URL`을 설정하세요. 스토어 배지가 노출되고 구조화 데이터에 `installUrl`이 붙습니다. 지금은 비어 있어 둘 다 빠져 있습니다.
 3. **비교 페이지 내용 검증** — Petty의 요금 정책, 무료 한도, 캐릭터 수를 확인해 표에 채우기. 지금은 확인된 사실만 적혀 있어 비어 보이는 칸이 있습니다.
 4. **일본어 랜딩 강화** — 제타가 일본에서 검증한 시장입니다. `/ja`가 이제 색인 가능해졌으니 일본어 콘텐츠를 늘릴 가치가 있습니다.

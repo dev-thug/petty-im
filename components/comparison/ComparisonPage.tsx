@@ -9,6 +9,7 @@ import {
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Wordmark } from "@/components/ui/wordmark";
 import { faqGraph } from "@/lib/seo/structured-data";
+import { sectionAttributes, trackingAttributes } from "@/lib/analytics/events";
 
 export function ComparisonPage({ comparison }: { comparison: Comparison }) {
   const others = COMPARISONS.filter((entry) => entry.slug !== comparison.slug);
@@ -26,12 +27,34 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
         본문으로 건너뛰기
       </a>
       <header className="legal-header">
-        <Link href="/" aria-label="Petty 홈으로">
+        <Link
+          href="/"
+          aria-label="Petty 홈으로"
+          {...trackingAttributes("navigation_click", {
+            nav_location: "header",
+            nav_item: "home",
+          })}
+        >
           <Wordmark size="display" />
         </Link>
         <div className="legal-header-links">
-          <Link href="/alternatives">비교 전체보기</Link>
-          <a href={PETTY_APP_URL}>페티 시작하기</a>
+          <Link
+            href="/alternatives"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "header",
+              nav_item: "alternatives",
+            })}
+          >
+            비교 전체보기
+          </Link>
+          <a
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", {
+              cta_location: "comparison_header",
+            })}
+          >
+            페티 시작하기
+          </a>
         </div>
       </header>
 
@@ -56,7 +79,15 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
           <ol>
             {toc.map((item) => (
               <li key={item.id}>
-                <a href={`#${item.id}`}>{item.title}</a>
+                <a
+                  href={`#${item.id}`}
+                  {...trackingAttributes("navigation_click", {
+                    nav_location: "toc",
+                    nav_item: item.id,
+                  })}
+                >
+                  {item.title}
+                </a>
               </li>
             ))}
           </ol>
@@ -75,7 +106,11 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
             ))}
           </section>
 
-          <section id="at-a-glance" aria-labelledby="at-a-glance-title">
+          <section
+            id="at-a-glance"
+            aria-labelledby="at-a-glance-title"
+            {...sectionAttributes("at-a-glance")}
+          >
             <h2 id="at-a-glance-title">한눈에 비교</h2>
             <div className="compare-table-scroll">
               <table className="compare-table">
@@ -113,7 +148,11 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
             </section>
           ))}
 
-          <section id="who" aria-labelledby="who-title">
+          <section
+            id="who"
+            aria-labelledby="who-title"
+            {...sectionAttributes("who")}
+          >
             <h2 id="who-title">어느 쪽이 맞을까요</h2>
             <div className="compare-columns">
               <div>
@@ -135,7 +174,11 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
             </div>
           </section>
 
-          <section id="faq" aria-labelledby="faq-title">
+          <section
+            id="faq"
+            aria-labelledby="faq-title"
+            {...sectionAttributes("faq")}
+          >
             <h2 id="faq-title">자주 묻는 질문</h2>
             {comparison.faqs.map((faq) => (
               <div className="compare-faq" key={faq.question}>
@@ -146,14 +189,25 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
           </section>
         </article>
 
-        <aside className="legal-contact" aria-labelledby="compare-cta-title">
+        <aside
+          className="legal-contact"
+          aria-labelledby="compare-cta-title"
+          {...sectionAttributes("cta")}
+        >
           <h2 id="compare-cta-title">직접 비교해 보는 게 가장 빠릅니다</h2>
           <p>
             Petty는 웹 브라우저(app.petty.im)에서도, iOS와 Android 앱으로도 쓸
             수 있습니다. 캐릭터를 하나 골라 며칠만 대화해 보면 차이를 알 수
             있습니다.
           </p>
-          <a href={PETTY_APP_URL}>페티 시작하기</a>
+          <a
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", {
+              cta_location: "comparison_cta",
+            })}
+          >
+            페티 시작하기
+          </a>
         </aside>
 
         <section className="compare-sources" aria-labelledby="sources-title">
@@ -180,13 +234,27 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
           <ul>
             {others.map((entry) => (
               <li key={entry.slug}>
-                <Link href={`/alternatives/${entry.slug}`}>
+                <Link
+                  href={`/alternatives/${entry.slug}`}
+                  {...trackingAttributes("navigation_click", {
+                    nav_location: "related",
+                    nav_item: entry.slug,
+                  })}
+                >
                   {entry.competitorName} 대신 쓸 만한 AI 캐릭터 채팅 앱
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/alternatives">AI 캐릭터 채팅 앱 비교 전체보기</Link>
+              <Link
+                href="/alternatives"
+                {...trackingAttributes("navigation_click", {
+                  nav_location: "related",
+                  nav_item: "alternatives",
+                })}
+              >
+                AI 캐릭터 채팅 앱 비교 전체보기
+              </Link>
             </li>
           </ul>
         </nav>
@@ -194,10 +262,41 @@ export function ComparisonPage({ comparison }: { comparison: Comparison }) {
 
       <footer className="legal-footer">
         <nav aria-label="서비스 정책">
-          <Link href="/">홈</Link>
-          <Link href="/terms">이용약관</Link>
-          <Link href="/privacy">개인정보처리방침</Link>
-          <a href={`mailto:${BUSINESS.supportEmail}`}>고객 문의</a>
+          <Link
+            href="/"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "home",
+            })}
+          >
+            홈
+          </Link>
+          <Link
+            href="/terms"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "terms",
+            })}
+          >
+            이용약관
+          </Link>
+          <Link
+            href="/privacy"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "privacy",
+            })}
+          >
+            개인정보처리방침
+          </Link>
+          <a
+            href={`mailto:${BUSINESS.supportEmail}`}
+            {...trackingAttributes("contact_click", {
+              cta_location: "comparison_footer",
+            })}
+          >
+            고객 문의
+          </a>
         </nav>
       </footer>
     </div>

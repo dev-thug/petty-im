@@ -11,5 +11,8 @@ export const LEGAL_UPDATED_AT = "2026-09-08";
 export type LegalDocument = {
   title: string;
   description: string;
+  /** Set when this document changed after LEGAL_UPDATED_AT, so the other one
+   * does not show a revision date it never had. */
+  updatedAt?: string;
   sections: { id: string; title: string; paragraphs: string[] }[];
 };

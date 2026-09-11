@@ -2,6 +2,9 @@ import { getRequestLocale } from "@/lib/i18n/server";
 import { SITE_URL, siteVerification } from "@/lib/seo/site";
 import { landingLocales } from "@/content/landing-locales";
 import { LocaleProvider } from "@/components/landing/LocaleProvider";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
+import { AnalyticsListener } from "@/components/analytics/AnalyticsListener";
+import { gaMeasurementId } from "@/lib/analytics/events";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 
@@ -40,10 +43,17 @@ export default async function RootLayout({
   children: ReactNode;
 }>) {
   const locale = await getRequestLocale();
+  const gaId = gaMeasurementId();
   return (
     <html className={pretendard.variable} lang={locale}>
       <body>
         <LocaleProvider locale={locale}>{children}</LocaleProvider>
+        {gaId && (
+          <>
+            <GoogleAnalytics measurementId={gaId} />
+            <AnalyticsListener />
+          </>
+        )}
       </body>
     </html>
   );

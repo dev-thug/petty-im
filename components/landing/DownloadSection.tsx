@@ -3,12 +3,17 @@ import { PETTY_APP_URL } from "@/content/app-links";
 import { useLandingContent } from "@/components/landing/LocaleProvider";
 import Image from "next/image";
 import { StoreBadge } from "@/components/ui/store-badge";
+import { sectionAttributes, trackingAttributes } from "@/lib/analytics/events";
 
 export function DownloadSection() {
   const { DOWNLOAD_SUBTITLE, DOWNLOAD_TITLE, STORE_BADGES, UI, PHONE_IMAGE } =
     useLandingContent();
   return (
-    <section className="landing-download" id="download">
+    <section
+      className="landing-download"
+      id="download"
+      {...sectionAttributes("download")}
+    >
       <div className="download-inner">
         <div className="phone-art">
           <Image
@@ -23,15 +28,32 @@ export function DownloadSection() {
           <h2>{DOWNLOAD_TITLE}</h2>
           <p>{DOWNLOAD_SUBTITLE}</p>
           <div className="store-row">
-            <a className="landing-button" href={PETTY_APP_URL}>
+            <a
+              className="landing-button"
+              href={PETTY_APP_URL}
+              {...trackingAttributes("open_app_click", {
+                cta_location: "download",
+              })}
+            >
               {UI.openApp}
             </a>
-            <StoreBadge store="appStore" {...STORE_BADGES.appStore} />
-            <StoreBadge store="googlePlay" {...STORE_BADGES.googlePlay} />
+            <StoreBadge
+              store="appStore"
+              trackingLocation="download"
+              {...STORE_BADGES.appStore}
+            />
+            <StoreBadge
+              store="googlePlay"
+              trackingLocation="download"
+              {...STORE_BADGES.googlePlay}
+            />
             <a
               className="download-qr"
               href={PETTY_APP_URL}
               aria-label={UI.qrLink}
+              {...trackingAttributes("open_app_click", {
+                cta_location: "download_qr",
+              })}
             >
               <Image
                 src="/assets/app-qr.png"

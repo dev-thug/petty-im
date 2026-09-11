@@ -4,6 +4,7 @@ import { useLandingContent } from "@/components/landing/LocaleProvider";
 import Image from "next/image";
 import { ArrowUpRight, Heart } from "lucide-react";
 import { StoreBadge } from "@/components/ui/store-badge";
+import { trackingAttributes } from "@/lib/analytics/events";
 
 function createStarField(count: number, seed: number) {
   let state = seed;
@@ -84,17 +85,36 @@ export function Hero() {
           ))}
         </p>
         <div className="hero-actions">
-          <a className="landing-button" href={PETTY_APP_URL}>
+          <a
+            className="landing-button"
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", { cta_location: "hero" })}
+          >
             {HERO_PRIMARY_CTA_LABEL}
           </a>
-          <a className="landing-button secondary" href="#characters">
+          <a
+            className="landing-button secondary"
+            href="#characters"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "hero",
+              nav_item: "characters",
+            })}
+          >
             <ArrowUpRight size={18} aria-hidden="true" />
             {HERO_SECONDARY_CTA_LABEL}
           </a>
         </div>
         <div className="store-row hero-stores">
-          <StoreBadge store="appStore" {...STORE_BADGES.appStore} />
-          <StoreBadge store="googlePlay" {...STORE_BADGES.googlePlay} />
+          <StoreBadge
+            store="appStore"
+            trackingLocation="hero"
+            {...STORE_BADGES.appStore}
+          />
+          <StoreBadge
+            store="googlePlay"
+            trackingLocation="hero"
+            {...STORE_BADGES.googlePlay}
+          />
         </div>
       </div>
     </section>

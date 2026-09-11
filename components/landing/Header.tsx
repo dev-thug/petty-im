@@ -7,6 +7,8 @@ import {
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Wordmark } from "@/components/ui/wordmark";
+import { trackingAttributes } from "@/lib/analytics/events";
+import { track } from "@/lib/analytics/track";
 
 import { cn } from "@/lib/utils";
 export function Header() {
@@ -24,7 +26,15 @@ export function Header() {
       className={cn("landing-header", (scrolled || open) && "is-scrolled")}
     >
       <div className="header-inner">
-        <a aria-label="Petty" href="#hero" onClick={() => setOpen(false)}>
+        <a
+          aria-label="Petty"
+          href="#hero"
+          onClick={() => setOpen(false)}
+          {...trackingAttributes("navigation_click", {
+            nav_location: "header",
+            nav_item: "logo",
+          })}
+        >
           <Wordmark className="header-logo" />
         </a>
         <nav
@@ -33,7 +43,15 @@ export function Header() {
           className={cn("header-nav", open && "is-open")}
         >
           {NAV_LINKS.map((link) => (
-            <a href={link.href} key={link.id} onClick={() => setOpen(false)}>
+            <a
+              href={link.href}
+              key={link.id}
+              onClick={() => setOpen(false)}
+              {...trackingAttributes("navigation_click", {
+                nav_location: "header",
+                nav_item: link.id,
+              })}
+            >
               {link.label}
             </a>
           ))}
@@ -42,6 +60,7 @@ export function Header() {
           className="header-cta"
           href={PETTY_APP_URL}
           onClick={() => setOpen(false)}
+          {...trackingAttributes("open_app_click", { cta_location: "header" })}
         >
           {NAV_CTA_LABEL}
         </a>
@@ -51,7 +70,10 @@ export function Header() {
           aria-expanded={open}
           aria-controls="landing-navigation"
           aria-label={open ? UI.menuClose : UI.menuOpen}
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            track("menu_toggle", { menu_state: open ? "close" : "open" });
+            setOpen(!open);
+          }}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>

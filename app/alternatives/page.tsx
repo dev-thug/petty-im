@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Wordmark } from "@/components/ui/wordmark";
 import { faqGraph } from "@/lib/seo/structured-data";
 import { alternatesFor } from "@/lib/seo/site";
+import { sectionAttributes, trackingAttributes } from "@/lib/analytics/events";
 
 const TITLE =
   "AI 캐릭터 채팅 앱 비교 — 제타 · 크랙 · Character.AI · 버블챗 | Petty";
@@ -58,12 +59,34 @@ export default function AlternativesHubPage() {
         본문으로 건너뛰기
       </a>
       <header className="legal-header">
-        <Link href="/" aria-label="Petty 홈으로">
+        <Link
+          href="/"
+          aria-label="Petty 홈으로"
+          {...trackingAttributes("navigation_click", {
+            nav_location: "header",
+            nav_item: "home",
+          })}
+        >
           <Wordmark size="display" />
         </Link>
         <div className="legal-header-links">
-          <Link href="/">홈으로</Link>
-          <a href={PETTY_APP_URL}>페티 시작하기</a>
+          <Link
+            href="/"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "header",
+              nav_item: "home",
+            })}
+          >
+            홈으로
+          </Link>
+          <a
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", {
+              cta_location: "hub_header",
+            })}
+          >
+            페티 시작하기
+          </a>
         </div>
       </header>
 
@@ -90,12 +113,22 @@ export default function AlternativesHubPage() {
         </div>
 
         <article className="legal-article">
-          <section id="list" aria-labelledby="list-title">
+          <section
+            id="list"
+            aria-labelledby="list-title"
+            {...sectionAttributes("list")}
+          >
             <h2 id="list-title">서비스별 비교 문서</h2>
             <ul className="compare-index">
               {COMPARISONS.map((comparison) => (
                 <li key={comparison.slug}>
-                  <Link href={`/alternatives/${comparison.slug}`}>
+                  <Link
+                    href={`/alternatives/${comparison.slug}`}
+                    {...trackingAttributes("navigation_click", {
+                      nav_location: "related",
+                      nav_item: comparison.slug,
+                    })}
+                  >
                     <strong>{comparison.heading}</strong>
                   </Link>
                   <p>{comparison.description}</p>
@@ -107,7 +140,11 @@ export default function AlternativesHubPage() {
             </ul>
           </section>
 
-          <section id="criteria" aria-labelledby="criteria-title">
+          <section
+            id="criteria"
+            aria-labelledby="criteria-title"
+            {...sectionAttributes("criteria")}
+          >
             <h2 id="criteria-title">비교할 때 실제로 갈리는 지점</h2>
             <p>
               <strong>캐릭터 규모.</strong> 제타는 400만 개가 넘는 캐릭터를
@@ -142,7 +179,11 @@ export default function AlternativesHubPage() {
             </p>
           </section>
 
-          <section id="faq" aria-labelledby="hub-faq-title">
+          <section
+            id="faq"
+            aria-labelledby="hub-faq-title"
+            {...sectionAttributes("faq")}
+          >
             <h2 id="hub-faq-title">자주 묻는 질문</h2>
             {FAQS.map((faq) => (
               <div className="compare-faq" key={faq.question}>
@@ -153,23 +194,65 @@ export default function AlternativesHubPage() {
           </section>
         </article>
 
-        <aside className="legal-contact" aria-labelledby="hub-cta-title">
+        <aside
+          className="legal-contact"
+          aria-labelledby="hub-cta-title"
+          {...sectionAttributes("cta")}
+        >
           <h2 id="hub-cta-title">Petty는 어떤 쪽인가요</h2>
           <p>
             같은 캐릭터와 이어가는 쪽입니다. 대화를 기억하고, 지나간 순간을
             기록으로 남깁니다. 한국어 · 일본어 · 영어를 지원하고, 웹
             브라우저에서도 iOS · Android 앱으로도 쓸 수 있습니다.
           </p>
-          <a href={PETTY_APP_URL}>페티 시작하기</a>
+          <a
+            href={PETTY_APP_URL}
+            {...trackingAttributes("open_app_click", {
+              cta_location: "hub_cta",
+            })}
+          >
+            페티 시작하기
+          </a>
         </aside>
       </main>
 
       <footer className="legal-footer">
         <nav aria-label="서비스 정책">
-          <Link href="/">홈</Link>
-          <Link href="/terms">이용약관</Link>
-          <Link href="/privacy">개인정보처리방침</Link>
-          <a href={`mailto:${BUSINESS.supportEmail}`}>고객 문의</a>
+          <Link
+            href="/"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "home",
+            })}
+          >
+            홈
+          </Link>
+          <Link
+            href="/terms"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "terms",
+            })}
+          >
+            이용약관
+          </Link>
+          <Link
+            href="/privacy"
+            {...trackingAttributes("navigation_click", {
+              nav_location: "footer",
+              nav_item: "privacy",
+            })}
+          >
+            개인정보처리방침
+          </Link>
+          <a
+            href={`mailto:${BUSINESS.supportEmail}`}
+            {...trackingAttributes("contact_click", {
+              cta_location: "hub_footer",
+            })}
+          >
+            고객 문의
+          </a>
         </nav>
       </footer>
     </div>
