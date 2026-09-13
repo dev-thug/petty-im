@@ -6,7 +6,7 @@ import { COMPARISONS, COMPARISON_UPDATED_AT } from "@/content/comparisons";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Wordmark } from "@/components/ui/wordmark";
 import { faqGraph } from "@/lib/seo/structured-data";
-import { alternatesFor } from "@/lib/seo/site";
+import { SITE_NAME, alternatesFor } from "@/lib/seo/site";
 import { sectionAttributes, trackingAttributes } from "@/lib/analytics/events";
 
 const TITLE =
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: "/alternatives",
-    siteName: "Petty",
+    siteName: SITE_NAME,
     locale: "ko_KR",
     type: "website",
   },

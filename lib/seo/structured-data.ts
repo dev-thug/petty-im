@@ -5,7 +5,7 @@ import {
 } from "@/content/app-links";
 import { BUSINESS } from "@/content/legal/business";
 import { landingLocales } from "@/content/landing-locales";
-import { HREFLANG, SITE_URL, absoluteUrl, localeRoute } from "@/lib/seo/site";
+import { HREFLANG, SITE_URL, SITE_NAME, SITE_ALTERNATE_NAMES, absoluteUrl } from "@/lib/seo/site";
 import type { Locale } from "@/lib/i18n/locale";
 
 const ORGANIZATION_ID = `${SITE_URL}/#organization`;
@@ -25,7 +25,8 @@ export function landingGraph(locale: Locale) {
       {
         "@type": "Organization",
         "@id": ORGANIZATION_ID,
-        name: "Petty",
+        name: SITE_NAME,
+        alternateName: SITE_ALTERNATE_NAMES,
         legalName: BUSINESS.name,
         url: SITE_URL,
         email: BUSINESS.supportEmail,
@@ -35,8 +36,10 @@ export function landingGraph(locale: Locale) {
       {
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
-        name: "Petty",
-        url: absoluteUrl(localeRoute(locale, "/")),
+        name: SITE_NAME,
+        alternateName: SITE_ALTERNATE_NAMES,
+        // A WebSite represents the domain, not a translated subdirectory.
+        url: SITE_URL,
         inLanguage: HREFLANG[locale],
         publisher: { "@id": ORGANIZATION_ID },
       },
@@ -45,7 +48,8 @@ export function landingGraph(locale: Locale) {
         // SoftwareApplication type fits better than either Web- or MobileApplication.
         "@type": "SoftwareApplication",
         "@id": APP_ID,
-        name: "Petty",
+        name: SITE_NAME,
+        alternateName: SITE_ALTERNATE_NAMES,
         applicationCategory: "EntertainmentApplication",
         operatingSystem: "Web, iOS, Android",
         url: PETTY_APP_URL,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ComparisonPage } from "@/components/comparison/ComparisonPage";
 import { COMPARISONS, getComparison } from "@/content/comparisons";
-import { alternatesFor } from "@/lib/seo/site";
+import { SITE_NAME, alternatesFor } from "@/lib/seo/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: comparison.title,
       description: comparison.description,
       url: route,
-      siteName: "Petty",
+      siteName: SITE_NAME,
       locale: "ko_KR",
       type: "article",
     },

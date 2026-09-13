@@ -126,6 +126,18 @@ App Store / Google Play 내부 검색은 스토어 리스팅(제목 · 부제 ·
 
 ---
 
+## 2026-09-13: Google 사이트 이름과 파비콘
+
+검색 결과의 제목 위 `petty.im`은 페이지 제목이 아니라 Google이 자동 선택하는 사이트 이름입니다. 기존 홈페이지에도 `WebSite` JSON-LD가 있었지만 영문 `Petty`만 선언했고, 동일한 `@id`의 URL이 언어별로 `/`, `/en`, `/ja`로 달랐습니다. 이 불일치가 검색 결과의 직접 원인인지는 Google 내부 선택 정보를 볼 수 없어 확정할 수 없습니다.
+
+선호 사이트 이름을 `페티`, 대체 이름을 `Petty`로 명시하고, 모든 언어의 `WebSite.url`을 대표 도메인으로 통일했습니다. `og:site_name`과 `application-name`도 같은 이름을 사용합니다. 이용약관과 개인정보처리방침은 자체 `openGraph`가 상위 설정을 덮어쓰므로 사이트 이름을 명시했습니다. 한국어 홈페이지 제목에는 `페티(Petty)`를 사용합니다.
+
+파비콘은 앱의 실제 로고인 `/icon.png`로 제공됩니다. 기본 지구본이 검색에 남아 있다고 해서 현재 이미지 제공이 실패했다는 뜻은 아닙니다. Googlebot의 홈페이지 접근과 Googlebot-Image의 아이콘 접근을 허용해야 합니다.
+
+배포 후 Search Console의 URL 검사에서 `https://petty.im/`을 검사하고 색인 생성을 요청하면 재수집을 요청할 수 있습니다. Google 검색 화면의 변경은 수일~수주가 걸릴 수 있으며 지정한 이름과 아이콘 표시를 보장할 수는 없습니다. Rich Results Test는 사이트 이름 검증을 지원하지 않습니다.
+
+근거: [Google 사이트 이름 가이드](https://developers.google.com/search/docs/appearance/site-names), [파비콘 가이드](https://developers.google.com/search/docs/appearance/favicon-in-search).
+
 ## 5. 다음에 하면 좋은 것 (우선순위 순)
 
 1. **다음 · 빙 등록** — 위 (1). 구글 · 네이버는 완료.

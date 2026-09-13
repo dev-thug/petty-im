@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { landingLocales } from "@/content/landing-locales";
 import { getRequestLocale } from "@/lib/i18n/server";
-import { alternatesFor, localeRoute } from "@/lib/seo/site";
+import { SITE_NAME, alternatesFor, localeRoute } from "@/lib/seo/site";
 
 /** Metadata for the landing page in whichever language the path selected. */
 export async function landingMetadata(): Promise<Metadata> {
@@ -16,7 +16,7 @@ export async function landingMetadata(): Promise<Metadata> {
       title: META.title,
       description: META.description,
       url,
-      siteName: "Petty",
+      siteName: SITE_NAME,
       locale: META.ogLocale,
       type: "website",
     },

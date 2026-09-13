@@ -32,7 +32,7 @@ const ko = {
     about: "서비스 소개",
   },
   META: {
-    title: "Petty | 당신이 주인공이 되는 이야기",
+    title: "페티(Petty) | 당신이 주인공이 되는 이야기",
     description:
       "취향에 맞는 AI 캐릭터를 만나고, 대화로 나만의 이야기를 만들어보세요.",
     ogLocale: "ko_KR",
@@ -323,4 +323,4 @@ export const landingLocales: Record<Locale, LandingContent> = { ko, ja, en };
 /** Last change to landing copy, sections, links or structured data, used as the
  * sitemap lastmod for /, /ja and /en. Bump it when the landing content changes;
  * markup-only edits (tracking attributes, styling) do not count. */
-export const LANDING_UPDATED_AT = "2026-09-09";
+export const LANDING_UPDATED_AT = "2026-09-13";

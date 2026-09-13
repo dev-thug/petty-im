@@ -1,5 +1,5 @@
 import { getRequestLocale } from "@/lib/i18n/server";
-import { SITE_URL, siteVerification } from "@/lib/seo/site";
+import { SITE_NAME, SITE_URL, siteVerification } from "@/lib/seo/site";
 import { landingLocales } from "@/content/landing-locales";
 import { LocaleProvider } from "@/components/landing/LocaleProvider";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
@@ -18,13 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: META.title,
     description: META.description,
-    applicationName: "Petty",
+    applicationName: SITE_NAME,
     metadataBase: new URL(SITE_URL),
     verification: siteVerification(),
     // Canonical and hreflang belong to each page: only the page knows which
     // languages it exists in, and a wrong canonical here would override them.
     openGraph: {
-      siteName: "Petty",
+      siteName: SITE_NAME,
       locale: META.ogLocale,
       type: "website",
     },

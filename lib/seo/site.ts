@@ -1,5 +1,8 @@
 import { LOCALE_PREFIX, LOCALES, type Locale } from "@/lib/i18n/locale";
 
+export const SITE_NAME = "페티";
+export const SITE_ALTERNATE_NAMES = ["Petty"];
+
 export const SITE_URL = "https://petty.im";
 
 /** Korean feed of the comparison guides (see lib/seo/rss.ts). */
