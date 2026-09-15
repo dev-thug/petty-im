@@ -19,6 +19,18 @@ Original PNGs and optimized, page-consumed WebP files are in `/Users/hyunjoong/p
 | `heart-bubble` | Single soft ivory speech bubble with a bright dimensional glossy pink heart, small tapered tail pointing down-left, isolated on genuinely transparent background, polished Korean anime fantasy UI illustration, no text or watermark. |
 | `app-phones` | High fidelity marketing asset of four overlapping black smartphones showing Korean AI character chat app Petty. Center front phone largest with Petty logo, purple anime promo banner and Korean title “새로운 이야기를 시작해요”, character cards; three phones behind with navy chat bubbles, avatar message lists and profile. Realistic black frames, lavender rim light, dark navy background, phones extend beyond bottom edge. Wide 3:2. Promotional concept illustration, not a screenshot of a released product. |
 
+## App icon
+
+Every icon derives from one 1254×1254 square illustration (white cat in a purple scarf seen from behind, heart speech bubble, shooting star over a night city); the master is not committed. Small sizes cannot show the whole scene, so the regular icons use the square crop `(280, 355)–(1100, 1175)` around the cat and the heart bubble. Only the maskable icon keeps the full frame, because a launcher's circular mask would clip the bubble out of the crop. Frames at 48px and below get a light unsharp mask after the Lanczos downscale.
+
+| File | Size | Frame | Used for |
+| --- | --- | --- | --- |
+| `app/favicon.ico` | 16, 32, 48 | crop | `/favicon.ico`, legacy tabs and crawlers |
+| `app/icon.png` | 192 | crop | `<link rel="icon">`, Google result favicon (a multiple of 48) |
+| `app/apple-icon.png` | 180 | crop | iOS home screen |
+| `public/assets/app-icon-192.png`, `app-icon-512.png` | 192, 512 | crop | `app/manifest.ts`; the 512 is also the Organization `logo` in JSON-LD |
+| `public/assets/app-icon-maskable-512.png` | 512 | full | `app/manifest.ts` maskable |
+
 `hero-background.webp` is an optimized version of the existing `hero-background.png`. `download-qr.png` is a real QR encoding `https://petty.im/#download`, generated deterministically with a QR library. It links to the mobile website, not to an unconfigured app-store listing.
 
 ## Conversion behavior

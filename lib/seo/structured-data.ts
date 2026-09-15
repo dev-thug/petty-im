@@ -30,7 +30,7 @@ export function landingGraph(locale: Locale) {
         legalName: BUSINESS.name,
         url: SITE_URL,
         email: BUSINESS.supportEmail,
-        logo: absoluteUrl("/assets/wordmark.png"),
+        logo: absoluteUrl("/assets/app-icon-512.png"),
         sameAs: [PETTY_APP_URL, ...stores],
       },
       {
