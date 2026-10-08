@@ -1079,3 +1079,36 @@ html:not([lang="ko"]) .hero-copy h1 {
     font-size: 10px;
   }
 }
+
+.landing-search {
+  padding-block: 64px;
+  max-width: 960px;
+}
+.landing-search .section-heading p {
+  max-width: 720px;
+  margin-inline: auto;
+  line-height: 1.8;
+}
+.landing-search > h3 {
+  margin-block: 32px 20px;
+  font-size: 22px;
+}
+.search-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  padding-left: 24px;
+  margin-bottom: 28px;
+}
+.search-steps h4, .search-faq dt { font-weight: 700; }
+.search-steps p, .search-faq dd { line-height: 1.8; margin-top: 8px; }
+.search-faq > div { padding-block: 20px; border-bottom: 1px solid #e9e1f3; }
+.search-faq dd { margin-left: 0; }
+.landing-search > a:last-child { display: inline-block; margin-top: 24px; text-decoration: underline; }
+@media (max-width: 700px) {
+  .landing-search { padding-block: 40px; }
+  .search-steps { grid-template-columns: 1fr; gap: 18px; }
+}
+.search-guides { margin-top: 24px; padding-left: 20px; }
+.search-guides li { margin-block: 12px; }
+.search-guides a { text-decoration: underline; text-underline-offset: 3px; }

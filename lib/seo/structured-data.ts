@@ -1,3 +1,4 @@
+import { landingSearchContent } from "@/content/landing-search";
 import {
   APP_STORE_URL,
   GOOGLE_PLAY_URL,
@@ -22,6 +23,11 @@ export function landingGraph(locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        ...faqGraph(landingSearchContent[locale].faqs),
+        "@id": `${absoluteUrl(locale === "ko" ? "/" : `/${locale}`)}#faq`,
+        inLanguage: HREFLANG[locale],
+      },
       {
         "@type": "Organization",
         "@id": ORGANIZATION_ID,
@@ -63,7 +69,7 @@ export function landingGraph(locale: Locale) {
   };
 }
 
-/** FAQ blocks power the "People also ask" style result on comparison pages. */
+/** Describe visible FAQs; Google limits FAQ rich results to eligible health/government sites. */
 export function faqGraph(
   faqs: readonly { question: string; answer: string }[],
 ) {

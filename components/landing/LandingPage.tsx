@@ -1,3 +1,4 @@
+import { SearchInformation } from "@/components/landing/SearchInformation";
 import { CharacterShowcase } from "@/components/landing/CharacterShowcase";
 import { DownloadSection } from "@/components/landing/DownloadSection";
 import { FeatureHighlights } from "@/components/landing/FeatureHighlights";
@@ -20,6 +21,7 @@ export async function LandingPage() {
         <Hero />
         <FeatureHighlights />
         <CharacterShowcase />
+        <SearchInformation locale={locale} />
         <DownloadSection />
       </main>
       <SiteFooter />

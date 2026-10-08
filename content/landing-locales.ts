@@ -32,9 +32,9 @@ const ko = {
     about: "서비스 소개",
   },
   META: {
-    title: "페티(Petty) | 당신이 주인공이 되는 이야기",
+    title: "페티(Petty) | AI 캐릭터 채팅으로 만드는 나만의 이야기",
     description:
-      "취향에 맞는 AI 캐릭터를 만나고, 대화로 나만의 이야기를 만들어보세요.",
+      "페티에서 로맨스·판타지·현대·SF의 AI 캐릭터와 채팅하고 나만의 이야기를 만들어보세요. 지난 대화를 바탕으로 이야기를 이어가고 소중한 순간을 기록하세요. 웹, iOS, Android에서 만날 수 있습니다.",
     ogLocale: "ko_KR",
   },
   PHONE_IMAGE: "/assets/app-phones.webp",
@@ -174,9 +174,9 @@ const en: LandingContent = {
     about: "About",
   },
   META: {
-    title: "Petty | Be the main character in your story",
+    title: "Petty | AI Character Chat & Your Own Stories",
     description:
-      "Find AI characters you connect with and turn every conversation into a story of your own.",
+      "Chat with AI characters in romance, fantasy and sci-fi on Petty. Continue conversations and keep your story records. Available on web, iOS and Android.",
     ogLocale: "en_US",
   },
   PHONE_IMAGE: "/assets/app-phones-en.webp",
@@ -311,9 +311,9 @@ const ja: LandingContent = {
     about: "Pettyとは",
   },
   META: {
-    title: "Petty | あなたが主役になる物語",
+    title: "Petty | AIキャラクターチャットで自分だけの物語",
     description:
-      "お気に入りのAIキャラクターを見つけて、会話からあなただけの物語を紡ごう。",
+      "Pettyで恋愛・ファンタジー・現代・SFのAIキャラクターとチャット。過去の会話をもとに物語を続け、大切な瞬間を記録できます。ウェブ・iOS・Androidに対応。",
     ogLocale: "ja_JP",
   },
   PHONE_IMAGE: "/assets/app-phones-ja.webp",
@@ -323,4 +323,4 @@ export const landingLocales: Record<Locale, LandingContent> = { ko, ja, en };
 /** Last change to landing copy, sections, links or structured data, used as the
  * sitemap lastmod for /, /ja and /en. Bump it when the landing content changes;
  * markup-only edits (tracking attributes, styling) do not count. */
-export const LANDING_UPDATED_AT = "2026-09-13";
+export const LANDING_UPDATED_AT = "2026-10-08";
