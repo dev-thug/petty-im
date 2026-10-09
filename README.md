@@ -10,6 +10,15 @@ npm run dev
 npm run verify
 ```
 
+서버 실행 후 검색엔진이 받는 HTML은 Python 3 표준 라이브러리만으로 검사할 수 있습니다. 사이트맵의 모든 페이지에서 HTTP 응답, 제목·설명, H1, canonical, hreflang, 색인·스니펫 차단 여부와 JSON-LD 구문을 확인합니다.
+
+```sh
+python3 scripts/check_seo.py --base-url http://localhost:3002
+python3 scripts/check_seo.py --base-url https://petty.im
+```
+
+이 검사는 기술적 회귀 검사이며 실제 색인 여부·검색 순위·Core Web Vitals 측정을 대신하지 않습니다.
+
 Node.js 22.x / npm 10.x. 이 랜딩페이지를 실행하는 데 데이터베이스는 필요하지 않습니다.
 
 ## 운영 정보

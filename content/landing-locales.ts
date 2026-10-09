@@ -323,4 +323,4 @@ export const landingLocales: Record<Locale, LandingContent> = { ko, ja, en };
 /** Last change to landing copy, sections, links or structured data, used as the
  * sitemap lastmod for /, /ja and /en. Bump it when the landing content changes;
  * markup-only edits (tracking attributes, styling) do not count. */
-export const LANDING_UPDATED_AT = "2026-10-08";
+export const LANDING_UPDATED_AT = "2026-10-09";

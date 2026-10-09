@@ -6,6 +6,7 @@ import {
 import { COMPARISON_HUB } from "@/content/comparisons";
 import { Wordmark } from "@/components/ui/wordmark";
 import { trackingAttributes } from "@/lib/analytics/events";
+import { BusinessInformation } from "@/components/legal/BusinessInformation";
 
 export function SiteFooter() {
   const { FOOTER_COPYRIGHT, FOOTER_CONTACT_EMAIL, FOOTER_TAGLINE, UI } =
@@ -79,6 +80,9 @@ export function SiteFooter() {
           </a>
         </nav>
         <small>{FOOTER_COPYRIGHT}</small>
+      </div>
+      <div className="footer-business">
+        <BusinessInformation locale={locale} />
       </div>
     </footer>
   );

@@ -49,6 +49,32 @@ describe("locale request plumbing", () => {
     expect(response.headers.get("location")).toBe("https://petty.im/");
   });
 
+  it("does not redirect Korean-only pages to missing translated routes", () => {
+    for (const [url, location, locale] of [
+      [
+        "https://petty.im/terms?lang=en",
+        "https://petty.im/en",
+        "en",
+      ],
+      [
+        "https://petty.im/alternatives/zeta?lang=ja",
+        "https://petty.im/ja",
+        "ja",
+      ],
+      [
+        "https://petty.im/terms?lang=ko",
+        "https://petty.im/terms",
+        "ko",
+      ],
+    ] as const) {
+      const response = proxy(new NextRequest(url));
+
+      expect(response.status).toBe(307);
+      expect(response.headers.get("location")).toBe(location);
+      expect(response.cookies.get("petty-locale")?.value).toBe(locale);
+    }
+  });
+
   it("sends a browser to its language once, from the root only", () => {
     const japanese = proxy(
       new NextRequest("https://petty.im/", {

@@ -3,7 +3,7 @@ import { PETTY_APP_URL } from "@/content/app-links";
 import { useLandingContent } from "@/components/landing/LocaleProvider";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { Dialog } from "radix-ui";
+import * as Dialog from "radix-ui/dialog";
 import { sectionAttributes, trackingAttributes } from "@/lib/analytics/events";
 
 export function CharacterShowcase() {
@@ -39,7 +39,7 @@ export function CharacterShowcase() {
               >
                 <Image
                   fill
-                  sizes="(max-width: 600px) 45vw, 180px"
+                  sizes="(max-width: 390px) calc((100vw - 40px) / 2), (max-width: 700px) calc((100vw - 64px) / 3), (max-width: 900px) calc((100vw - 100px) / 6), (max-width: 1280px) calc(16.67vw - 30px), 180px"
                   src={`/assets/${character.id}.webp`}
                   alt={`${character.role}, ${character.name}`}
                 />
@@ -58,6 +58,7 @@ export function CharacterShowcase() {
                     src={`/assets/${character.id}.webp`}
                     width={180}
                     height={220}
+                    sizes="120px"
                     alt={character.name}
                   />
                   <Dialog.Title>

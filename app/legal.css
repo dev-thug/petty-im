@@ -218,8 +218,8 @@
   color: var(--ring);
 }
 .footer-business {
-  width: 85%;
-  max-width: 1120px;
+  width: var(--landing-content-width, 85%);
+  max-width: var(--landing-content-max, 1120px);
   margin-inline: auto;
   border-top: 1px solid var(--border);
   padding-bottom: 16px;
@@ -236,6 +236,6 @@
     margin-bottom: 3px;
   }
   .footer-business {
-    width: calc(100% - 40px);
+    width: var(--landing-content-width, calc(100% - 40px));
   }
 }

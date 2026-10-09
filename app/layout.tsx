@@ -47,7 +47,9 @@ export default async function RootLayout({
   return (
     <html className={pretendard.variable} lang={locale}>
       <body>
-        <LocaleProvider locale={locale}>{children}</LocaleProvider>
+        <LocaleProvider locale={locale} content={landingLocales[locale]}>
+          {children}
+        </LocaleProvider>
         {gaId && (
           <>
             <GoogleAnalytics measurementId={gaId} />

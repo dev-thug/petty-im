@@ -1,26 +1,45 @@
 "use client";
 import { createContext, useContext, type ReactNode } from "react";
 import { isLocale, type Locale } from "@/lib/i18n/locale";
-import { landingLocales } from "@/content/landing-locales";
+import type { LandingContent } from "@/content/landing-locales";
 import { track } from "@/lib/analytics/track";
-const LocaleContext = createContext<Locale>("ko");
+
+const LandingContext = createContext<{
+  locale: Locale;
+  content: LandingContent;
+} | null>(null);
+
 export function LocaleProvider({
   locale,
+  content,
   children,
 }: {
   locale: Locale;
+  content: LandingContent;
   children: ReactNode;
 }) {
   return (
-    <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>
+    <LandingContext.Provider value={{ locale, content }}>
+      {children}
+    </LandingContext.Provider>
   );
 }
-export function useLandingContent() {
-  return landingLocales[useContext(LocaleContext)];
+
+function useLandingContext() {
+  const context = useContext(LandingContext);
+  if (!context) {
+    throw new Error("Landing content hooks must be used within LocaleProvider");
+  }
+  return context;
 }
+
+export function useLandingContent() {
+  return useLandingContext().content;
+}
+
 export function LanguageSelector() {
-  const locale = useContext(LocaleContext);
-  const { UI } = useLandingContent();
+  const { locale, content } = useLandingContext();
+  const { UI } = content;
   return (
     <select
       className="language-selector"
@@ -44,5 +63,5 @@ export function LanguageSelector() {
 }
 
 export function useLocale() {
-  return useContext(LocaleContext);
+  return useLandingContext().locale;
 }

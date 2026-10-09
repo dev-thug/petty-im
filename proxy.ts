@@ -15,6 +15,10 @@ const COOKIE_OPTIONS = {
   httpOnly: true,
 } as const;
 
+function isLocalizedLandingPath(pathname: string) {
+  return pathname === "/" || /^\/(?:en|ja)\/?$/.test(pathname);
+}
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const secure = request.nextUrl.protocol === "https:";
@@ -24,7 +28,12 @@ export function proxy(request: NextRequest) {
   // Keeping one address per language is what lets search engines index all three.
   if (isLocale(requested)) {
     const target = request.nextUrl.clone();
-    target.pathname = localePath(pathname, requested);
+    // Only the landing page has English and Japanese versions. A switch from a
+    // Korean-only page should go to the selected landing page, not a 404 route.
+    target.pathname =
+      isLocalizedLandingPath(pathname) || requested === "ko"
+        ? localePath(pathname, requested)
+        : LOCALE_PREFIX[requested];
     target.searchParams.delete("lang");
     const redirect = NextResponse.redirect(target, 307);
     redirect.cookies.set(LOCALE_COOKIE, requested, {
@@ -74,6 +83,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|assets|licenses|favicon.ico|robots.txt|sitemap.xml|rss.xml|icon|apple-icon|manifest.webmanifest|opengraph-image).*)",
+    "/((?!api|_next/static|_next/image|assets|licenses|favicon.ico|robots.txt|sitemap.xml|rss.xml|llms\\.txt|icon|apple-icon|manifest.webmanifest|opengraph-image).*)",
   ],
 };

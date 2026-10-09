@@ -6,16 +6,26 @@ import { sectionAttributes } from "@/lib/analytics/events";
 function Avatar({
   id = "seoha",
   className = "",
+  size = "small",
 }: {
   id?: string;
   className?: string;
+  size?: "large" | "group" | "small";
 }) {
+  const sizes =
+    size === "large"
+      ? "(max-width: 900px) 100px, 128px"
+      : size === "group"
+        ? "(max-width: 900px) 45px, 60px"
+        : "29px";
+
   return (
     <Image
       src={`/assets/${id}.webp`}
       alt=""
       width={150}
       height={150}
+      sizes={sizes}
       className={`feature-avatar ${className}`}
     />
   );
@@ -23,9 +33,9 @@ function Avatar({
 function CharactersPreview() {
   return (
     <div className="avatar-group">
-      <Avatar id="ian" />
-      <Avatar className="main-avatar" />
-      <Avatar id="yuri" />
+      <Avatar id="ian" size="group" />
+      <Avatar className="main-avatar" size="large" />
+      <Avatar id="yuri" size="group" />
     </div>
   );
 }
@@ -79,6 +89,7 @@ function StoryPreview() {
       alt={UI.bookAlt}
       width={300}
       height={200}
+      sizes="(max-width: 390px) calc(100vw - 60px), (max-width: 900px) calc(50vw - 52px), (min-width: 1200px) 230px, calc(25vw - 70px)"
       src="/assets/story-book-transparent.webp"
     />
   );

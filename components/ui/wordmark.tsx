@@ -26,11 +26,20 @@ export type WordmarkProps = VariantProps<typeof wordmarkVariants> & {
 };
 
 function Wordmark({ size, className }: WordmarkProps) {
+  const sizes = className?.split(/\s+/).includes("header-logo")
+    ? "(max-width: 700px) 75px, 102px"
+    : className?.split(/\s+/).includes("footer-logo") || size === "display"
+      ? "108px"
+      : size === "signature"
+        ? "84px"
+        : "72px";
+
   return (
     <Image
       alt={WORDMARK_ALT}
       className={cn(wordmarkVariants({ size }), className)}
       height={WORDMARK_HEIGHT}
+      sizes={sizes}
       src={WORDMARK_SRC}
       width={WORDMARK_WIDTH}
     />
