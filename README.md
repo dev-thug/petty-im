@@ -21,6 +21,8 @@ python3 scripts/check_seo.py --base-url https://petty.im
 
 Node.js 22.x / npm 10.x. 이 랜딩페이지를 실행하는 데 데이터베이스는 필요하지 않습니다.
 
+폰트는 `app/globals.css`에서 설치된 Pretendard 1.3.9의 가변 다이나믹 서브셋 CSS를 가져옵니다. 빌드가 WOFF2 파일을 같은 사이트의 정적 자산으로 내보내고, 브라우저는 `unicode-range`에 따라 필요한 파일만 받습니다. 전체 2MB 폰트를 다시 추가하거나 모든 서브셋을 preload하지 마세요. 한글 전체 음절·ASCII 범위와 서브셋 파일 무결성은 `app/fonts.test.ts`에서 검증합니다. OFL 고지는 `public/licenses/Pretendard-OFL-1.1.txt`에 유지합니다.
+
 ## 운영 정보
 
 - 앱 연결: `content/app-links.ts`의 `PETTY_APP_URL`.

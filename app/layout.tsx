@@ -10,8 +10,6 @@ import type { ReactNode } from "react";
 
 import "@/app/globals.css";
 
-import { pretendard } from "@/app/fonts";
-
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
   const { META } = landingLocales[locale];
@@ -45,7 +43,7 @@ export default async function RootLayout({
   const locale = await getRequestLocale();
   const gaId = gaMeasurementId();
   return (
-    <html className={pretendard.variable} lang={locale}>
+    <html lang={locale}>
       <body>
         <LocaleProvider locale={locale} content={landingLocales[locale]}>
           {children}
