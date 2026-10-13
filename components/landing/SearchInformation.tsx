@@ -1,5 +1,3 @@
-import { COMPARISONS } from "@/content/comparisons";
-import Link from "next/link";
 import { landingSearchContent } from "@/content/landing-search";
 import { PETTY_APP_URL } from "@/content/app-links";
 import type { Locale } from "@/lib/i18n/locale";
@@ -37,27 +35,19 @@ export function SearchInformation({ locale }: { locale: Locale }) {
         <h3 id="petty-faq-title">{content.faqTitle}</h3>
         <dl className="search-faq">
           {content.faqs.map((faq) => (
-            <div key={faq.question}><dt>{faq.question}</dt><dd>{faq.answer}</dd></div>
+            <div key={faq.question}>
+              <dt>{faq.question}</dt>
+              <dd>
+                {faq.answer}
+                {faq.actionLabel && (
+                  <a className="landing-button secondary search-faq-action" href={PETTY_APP_URL}>
+                    {faq.actionLabel}<span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </dd>
+            </div>
           ))}
         </dl>
-      </div>
-      <div className="search-guide-section" lang="ko">
-        <Link className="search-guide-heading" href="/alternatives" hrefLang="ko">
-          AI 캐릭터 채팅 앱 비교 가이드 (한국어)
-          <span aria-hidden="true">↗</span>
-        </Link>
-        {locale === "ko" && (
-          <ul className="search-guides">
-            {COMPARISONS.map((comparison) => (
-              <li key={comparison.slug}>
-                <Link href={`/alternatives/${comparison.slug}`}>
-                  <span>{comparison.title.replace(/ \| Petty$/, "")}</span>
-                  <span aria-hidden="true">↗</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </section>
   );

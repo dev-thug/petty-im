@@ -20,7 +20,7 @@ const ko = {
     close: "닫기",
     characterDetails: "캐릭터 소개 보기",
     storyCta: "함께 이야기 시작하기",
-    openApp: "페티 앱 열기",
+    openApp: "웹에서 바로 시작하기",
     bookAlt: "보라색 책과 깃펜으로 펼쳐지는 나만의 이야기",
     phoneAlt: "Petty 앱의 캐릭터 탐색, 대화, 프로필 화면 미리보기",
     qrAlt: "Petty 모바일 페이지 QR 코드",

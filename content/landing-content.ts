@@ -126,7 +126,7 @@ export const CHARACTERS_MORE_LABEL = ["더 많은 캐릭터", "만들기"] as co
 
 export const DOWNLOAD_TITLE = "지금 Petty를 시작하세요";
 export const DOWNLOAD_SUBTITLE =
-  "Petty는 언제나 당신의 이야기를 기다리고 있어요.";
+  "iPhone과 Android에서도, 당신의 이야기는 계속돼요.";
 export const DOWNLOAD_QR_LABEL = "QR코드로 다운로드";
 
 export const STORE_BADGES = {

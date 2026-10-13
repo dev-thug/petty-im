@@ -28,15 +28,6 @@ export function DownloadSection() {
           <h2>{DOWNLOAD_TITLE}</h2>
           <p>{DOWNLOAD_SUBTITLE}</p>
           <div className="store-row">
-            <a
-              className="landing-button"
-              href={PETTY_APP_URL}
-              {...trackingAttributes("open_app_click", {
-                cta_location: "download",
-              })}
-            >
-              {UI.openApp}
-            </a>
             <StoreBadge
               store="appStore"
               trackingLocation="download"
@@ -47,6 +38,17 @@ export function DownloadSection() {
               trackingLocation="download"
               {...STORE_BADGES.googlePlay}
             />
+          </div>
+          <div className="download-web-row">
+            <a
+              className="landing-button"
+              href={PETTY_APP_URL}
+              {...trackingAttributes("open_app_click", {
+                cta_location: "download",
+              })}
+            >
+              {UI.openApp}
+            </a>
             <a
               className="download-qr"
               href={PETTY_APP_URL}
